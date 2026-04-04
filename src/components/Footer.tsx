@@ -31,7 +31,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs font-medium text-muted-foreground">
             © {new Date().getFullYear()} Gill&apos;s Log. All rights reserved.
-          </div>
+          </p>
           <div className="flex items-center gap-2">
             <span className="h-1 w-1 rounded-full bg-primary animate-pulse" />
             <p className="text-[10px] font-black uppercase tracking-widest text-primary/50">Bold Tech Engine v1.0</p>
