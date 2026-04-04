@@ -28,7 +28,7 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
     const searchTarget = [
       post.title,
       post.excerpt,
-      ...(post.categories || []),
+      post.category || "",
       ...(post.tags || []),
     ].join(" ").toLowerCase();
 
@@ -69,11 +69,11 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                         {format(new Date(post.date), "MMM dd, yyyy")}
                       </div>
                       <div className="flex flex-wrap gap-1 mt-2">
-                        {post.categories?.slice(0, 2).map(cat => (
-                          <span key={cat} className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
-                            {cat}
+                        {post.category && (
+                          <span className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+                            {post.category}
                           </span>
-                        ))}
+                        )}
                       </div>
                     </div>
                   </div>
