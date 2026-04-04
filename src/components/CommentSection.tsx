@@ -101,14 +101,30 @@ export default function CommentSection({ postSlug }: { postSlug: string }) {
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap justify-center gap-4">
-            <Button variant="outline" onClick={() => signInWithSocial('github')} className="h-12 w-12 rounded-xl p-0 transition-all hover:bg-black hover:text-white">
+            <Button 
+              variant="outline" 
+              onClick={() => signInWithSocial('github')} 
+              className="h-12 w-12 rounded-xl p-0 transition-all hover:bg-black hover:text-white"
+              title="GitHub로 로그인"
+            >
               <GitHubIcon />
             </Button>
-            <Button variant="outline" onClick={() => signInWithSocial('google')} className="h-12 w-12 rounded-xl p-0 transition-all hover:bg-red-50 hover:text-red-800">
+            <Button 
+              variant="outline" 
+              onClick={() => signInWithSocial('google')} 
+              className="h-12 w-12 rounded-xl p-0 transition-all hover:bg-red-50 hover:text-red-800"
+              title="Google로 로그인"
+            >
               <Globe className="h-5 w-5" />
             </Button>
-            <Button variant="outline" onClick={() => signInWithSocial('kakao')} className="h-12 w-12 rounded-xl bg-[#FEE500] text-[#3c1e1e] border-none font-black hover:bg-[#FEE500]/80">K</Button>
-            <Button variant="outline" onClick={() => signInWithSocial('naver')} className="h-12 w-12 rounded-xl bg-[#03C75A] text-white border-none font-black hover:bg-[#03C75A]/80">N</Button>
+            <Button 
+              variant="outline" 
+              onClick={() => signInWithSocial('kakao')} 
+              className="h-12 w-12 rounded-xl bg-[#FEE500] text-[#3c1e1e] border-none font-black hover:bg-[#FEE500]/80"
+              title="카카오로 로그인"
+            >
+              K
+            </Button>
           </CardContent>
         </Card>
       ) : (
