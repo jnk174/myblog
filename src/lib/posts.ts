@@ -12,7 +12,7 @@ export type PostData = {
   fullSlug: string[]; // 실제 파일 경로용 슬러그 (접두사 포함)
   title: string;
   date: string;
-  categories?: string[];
+  category?: string;
   tags?: string[];
   contentHtml?: string;
   excerpt?: string;
@@ -58,7 +58,7 @@ export function getSortedPostsData(): PostData[] {
     const data = matterResult.data as {
       title: string;
       date: string;
-      categories?: string[];
+      category?: string;
       tags?: string[];
       excerpt?: string;
     };
@@ -112,9 +112,9 @@ export function getAllCategories(): { name: string; count: number }[] {
   const categoryCounts: Record<string, number> = {};
   
   posts.forEach((post) => {
-    post.categories?.forEach((cat) => {
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-    });
+    if (post.category) {
+      categoryCounts[post.category] = (categoryCounts[post.category] || 0) + 1;
+    }
   });
 
   return Object.entries(categoryCounts)
