@@ -1,0 +1,60 @@
+﻿
+> gill-log@0.1.0 build
+> next build
+
+??Next.js 16.2.2 (Turbopack)
+
+  Creating an optimized production build ...
+??Compiled successfully in 2.8s
+  Running TypeScript ...
+  Finished TypeScript in 2.5s ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/9) ...
+node.exe : Error occurred prerendering page "/blog/2026-04/f
+irst-post". Read more: https://nextjs.org/docs/messages/prer
+ender-error
+위치 줄:1 문자:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nod
+ejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Error occurred 
+    ...prerender-error:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Error: supabaseUrl is required.
+    at <unknown> (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾湲?27_釉붾줈
+洹?留뚮뱾湲?.next\server\chunks\ssr\src_lib_supabase_ts_048cf9r._
+.js:37:43441)
+    at new cv (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾湲?27_釉붾줈洹?留
+뚮뱾湲?.next\server\chunks\ssr\src_lib_supabase_ts_048cf9r._.js
+:37:43692)
+    at module evaluation (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾
+湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\src_lib_supabase_ts_0
+48cf9r._.js:37:48030)
+    at instantiateModule (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾
+湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbopack]_runtime.j
+s:853:9)
+    at getOrInstantiateModuleFromParent (D:\Code_Repo\而ㅼ꽌 AI
+ 30媛??꾨줈洹몃옩 留뚮뱾湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbo
+pack]_runtime.js:877:12)
+    at Context.esmImport [as i] (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈
+洹몃옩 留뚮뱾湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbopack]_ru
+ntime.js:281:20)
+    at module evaluation (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾
+湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\src_components_Commen
+tSection_tsx_0gszvxq._.js:1:74)
+    at instantiateModule (D:\Code_Repo\而ㅼ꽌 AI 30媛??꾨줈洹몃옩 留뚮뱾
+湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbopack]_runtime.j
+s:853:9)
+    at getOrInstantiateModuleFromParent (D:\Code_Repo\而ㅼ꽌 AI
+ 30媛??꾨줈洹몃옩 留뚮뱾湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbo
+pack]_runtime.js:877:12)
+    at Context.commonJsRequire [as r] (D:\Code_Repo\而ㅼ꽌 AI 3
+0媛??꾨줈洹몃옩 留뚮뱾湲?27_釉붾줈洹?留뚮뱾湲?.next\server\chunks\ssr\[turbopa
+ck]_runtime.js:302:12) {
+  digest: '4291305183'
+}
+Export encountered an error on /blog/[...slug]/page: /blog/2
+026-04/first-post, exiting the build.
+殊?Next.js build worker exited with code: 1 and signal: null
