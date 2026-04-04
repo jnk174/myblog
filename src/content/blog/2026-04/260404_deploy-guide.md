@@ -14,6 +14,9 @@ excerpt: "Next.js를 사용하여 정적 블로그를 만들고, 깃허브와 �
 
 # Next.js 정적 블로그: 빌드부터 Vercel 배포까지 완벽 가이드
 
+> [!IMPORTANT]
+> **Bold Tech Edition**: 이 가이드는 초성능 테크 블로그 구축을 위한 핵심 설정만을 담고 있습니다.
+
 나만의 블로그를 갖는 것은 모든 개발자의 꿈이죠. 오늘은 **Next.js 16.2**와 **Shadcn UI**를 활용해 만든 정적 블로그를 **GitHub**에 올리고 **Vercel**로 배포하는 전체 과정을 소개합니다.
 
 ## 1. 정적 페이지 빌드 설정 (`Static Export`)
@@ -34,13 +37,15 @@ const nextConfig: NextConfig = {
 export default nextConfig;
 ```
 
-이렇게 하면 `npm run build` 실행 시 모든 페이지가 `out` 폴더에 HTML/CSS/JS 파일로 생성됩니다.
+> [!TIP]
+> `output: 'export'`를 설정하면 `npm run build` 실행 시 모든 페이지가 `out` 폴더에 HTML/CSS/JS 파일로 생성되어 어디든 무료로 호스팅할 수 있습니다.
 
 ## 2. GitHub 저장소 연동 및 푸시
 
 로컬에서 작업한 코드를 안전하게 보관하고 배포 자동화를 위해 GitHub에 푸시합니다.
 
 ```bash
+# 초기화 및 푸시 예시
 git add .
 git commit -m "feat: complete blog implementation"
 git branch -M main
@@ -52,9 +57,9 @@ git push -u origin main
 
 Vercel은 깃허브 저장소를 연결하면 코드가 업데이트될 때마다 자동으로 배포해 주는 아주 편리한 서비스입니다.
 
-1. **Vercel 프로젝트 생성**: GitHub 저장소를 가져옵니다.
-2. **Framework Preset**: 반드시 `Next.js`로 설정해야 합니다. (정적 빌드 폴더인 `out`을 자동으로 인식합니다.)
-3. **도메인 변경**: Vercel 설정(Settings) -> Domains 메뉴에서 `gill-log.vercel.app`과 같은 나만의 주소를 무료로 등록할 수 있습니다.
+- **Vercel 프로젝트 생성**: GitHub 저장소를 가져옵니다.
+- **Framework Preset**: 반드시 `Next.js`로 설정해야 합니다.
+- **도메인 변경**: Vercel 설정(Settings) -> Domains 메뉴에서 `gill-log.vercel.app`과 같은 나만의 주소를 무료로 등록할 수 있습니다.
 
 ## 4. 마치며
 

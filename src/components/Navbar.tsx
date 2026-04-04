@@ -3,36 +3,39 @@ import { ThemeToggle } from './ThemeToggle';
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between mx-auto px-4">
-        <div className="flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="font-bold sm:inline-block">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md transition-all duration-300">
+      <div className="container flex h-16 items-center justify-between mx-auto px-6">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center transition-transform group-hover:rotate-12">
+              <span className="text-primary-foreground font-black text-xl">G</span>
+            </div>
+            <span className="font-bold text-xl tracking-tighter group-hover:text-primary transition-colors">
               Gill&apos;s Log
             </span>
           </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
+          <nav className="hidden md:flex items-center space-x-8 text-sm font-bold uppercase tracking-widest">
             <Link
               href="/"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
+              className="transition-colors hover:text-primary text-foreground/60"
             >
               Home
             </Link>
             <Link
               href="/about"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
+              className="transition-colors hover:text-primary text-foreground/60"
             >
               About
             </Link>
             <Link
               href="/blog"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
+              className="transition-colors hover:text-primary text-foreground/60"
             >
               Blog
             </Link>
           </nav>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <ThemeToggle />
         </div>
       </div>

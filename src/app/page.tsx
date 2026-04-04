@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSortedPostsData } from "@/lib/posts";
 import { format } from "date-fns";
+import VisitorCounter from "@/components/VisitorCounter";
 
 export default function Home() {
   const latestPosts = getSortedPostsData().slice(0, 3); // 최근 3개 포스트

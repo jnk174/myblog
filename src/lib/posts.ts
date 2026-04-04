@@ -8,7 +8,8 @@ import gfm from 'remark-gfm';
 const postsDirectory = path.join(process.cwd(), 'src/content/blog');
 
 export type PostData = {
-  slug: string[]; // e.g., ['2026-04', 'my-post']
+  slug: string[]; // URL용 슬러그 (접두사 제거됨)
+  fullSlug: string[]; // 실제 파일 경로용 슬러그 (접두사 포함)
   title: string;
   date: string;
   categories?: string[];
@@ -36,12 +37,20 @@ function getFilesRecursively(dir: string): string[] {
   return results;
 }
 
+// 파일명에서 YYMMDD_ 접두사를 제거하는 함수
+function cleanSlugPart(part: string): string {
+  return part.replace(/^\d{6}_/, '');
+}
+
 export function getSortedPostsData(): PostData[] {
   const filePaths = getFilesRecursively(postsDirectory);
   const allPostsData = filePaths.map((fullPath) => {
-    // '/src/content/blog' 에 상대적인 경로 계산
     const relativePath = path.relative(postsDirectory, fullPath);
-    const slug = relativePath.replace(/\.md$/, '').split(path.sep);
+    const pathParts = relativePath.replace(/\.md$/, '').split(path.sep);
+    
+    // URL용 슬러그: 마지막 파트(파일명)에서 접두사 제거
+    const slug = [...pathParts];
+    slug[slug.length - 1] = cleanSlugPart(slug[slug.length - 1]);
 
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
@@ -56,33 +65,32 @@ export function getSortedPostsData(): PostData[] {
 
     return {
       slug,
+      fullSlug: pathParts,
       ...data,
     };
   });
 
-  // 날짜순 내림차순 정렬
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function getAllPostSlugs() {
-  const filePaths = getFilesRecursively(postsDirectory);
-  return filePaths.map((fullPath) => {
-    const relativePath = path.relative(postsDirectory, fullPath);
-    const slug = relativePath.replace(/\.md$/, '').split(path.sep);
-    return {
-      slug,
-    };
-  });
+  const posts = getSortedPostsData();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
 export async function getPostData(slugArray: string[]): Promise<PostData> {
-  const fullPath = path.join(postsDirectory, `${slugArray.join('/')}.md`);
+  const posts = getSortedPostsData();
+  
+  // URL 슬러그가 일치하는 포스트 찾기
+  const post = posts.find(p => p.slug.join('/') === slugArray.join('/'));
+  
+  if (!post) {
+    throw new Error(`Post not found for slug: ${slugArray.join('/')}`);
+  }
+
+  const fullPath = path.join(postsDirectory, `${post.fullSlug.join('/')}.md`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 
@@ -93,18 +101,9 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
   
   const contentHtml = processedContent.toString();
 
-  const data = matterResult.data as {
-    title: string;
-    date: string;
-    categories?: string[];
-    tags?: string[];
-    excerpt?: string;
-  };
-
   return {
-    slug: slugArray,
+    ...post,
     contentHtml,
-    ...data,
   };
 }
 
