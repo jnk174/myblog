@@ -12,7 +12,7 @@ export type PostData = {
   fullSlug: string[]; // 실제 파일 경로용 슬러그 (접두사 포함)
   title: string;
   date: string;
-  category?: string;
+  categories?: string[];
   tags?: string[];
   contentHtml?: string;
   excerpt?: string;
@@ -23,7 +23,7 @@ function getFilesRecursively(dir: string): string[] {
   let results: string[] = [];
   if (!fs.existsSync(dir)) return results;
   const list = fs.readdirSync(dir);
-  
+
   list.forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
@@ -47,7 +47,7 @@ export function getSortedPostsData(): PostData[] {
   const allPostsData = filePaths.map((fullPath) => {
     const relativePath = path.relative(postsDirectory, fullPath);
     const pathParts = relativePath.replace(/\.md$/, '').split(path.sep);
-    
+
     // URL용 슬러그: 마지막 파트(파일명)에서 접두사 제거
     const slug = [...pathParts];
     slug[slug.length - 1] = cleanSlugPart(slug[slug.length - 1]);
@@ -58,7 +58,7 @@ export function getSortedPostsData(): PostData[] {
     const data = matterResult.data as {
       title: string;
       date: string;
-      category?: string;
+      categories?: string[];
       tags?: string[];
       excerpt?: string;
     };
@@ -82,10 +82,10 @@ export function getAllPostSlugs() {
 
 export async function getPostData(slugArray: string[]): Promise<PostData> {
   const posts = getSortedPostsData();
-  
+
   // URL 슬러그가 일치하는 포스트 찾기
   const post = posts.find(p => p.slug.join('/') === slugArray.join('/'));
-  
+
   if (!post) {
     throw new Error(`Post not found for slug: ${slugArray.join('/')}`);
   }
@@ -98,7 +98,7 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
     .use(gfm)
     .use(html)
     .process(matterResult.content);
-  
+
   const contentHtml = processedContent.toString();
 
   return {
@@ -110,11 +110,11 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
 export function getAllCategories(): { name: string; count: number }[] {
   const posts = getSortedPostsData();
   const categoryCounts: Record<string, number> = {};
-  
+
   posts.forEach((post) => {
-    if (post.category) {
-      categoryCounts[post.category] = (categoryCounts[post.category] || 0) + 1;
-    }
+    post.categories?.forEach((cat) => {
+      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
   });
 
   return Object.entries(categoryCounts)
@@ -125,7 +125,7 @@ export function getAllCategories(): { name: string; count: number }[] {
 export function getAllTags(): { name: string; count: number }[] {
   const posts = getSortedPostsData();
   const tagCounts: Record<string, number> = {};
-  
+
   posts.forEach((post) => {
     post.tags?.forEach((tag) => {
       tagCounts[tag] = (tagCounts[tag] || 0) + 1;

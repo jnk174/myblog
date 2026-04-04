@@ -37,7 +37,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
             <ChevronLeft className="mr-1 h-3 w-3 group-hover:-translate-x-1 transition-transform" />
             Back to Archive
           </Link>
-          
+
           <article className="space-y-12">
             <header className="space-y-6">
               <div className="flex flex-wrap items-center gap-3">
@@ -45,11 +45,11 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                   <Calendar className="h-3 w-3" />
                   {format(new Date(postData.date), "MMMM dd, yyyy")}
                 </div>
-                {postData.category && (
-                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
-                    {postData.category}
+                {postData.categories?.map(cat => (
+                  <span key={cat} className="text-[10px] font-black uppercase tracking-widest text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
+                    {cat}
                   </span>
-                )}
+                ))}
               </div>
 
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-[1.2] text-balance">

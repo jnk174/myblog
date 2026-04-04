@@ -24,11 +24,11 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
 
   const filteredPosts = posts.filter((post) => {
     if (!searchQuery) return true;
-    
+
     const searchTarget = [
       post.title,
       post.excerpt,
-      post.category || "",
+      ...(post.categories || []),
       ...(post.tags || []),
     ].join(" ").toLowerCase();
 
@@ -69,15 +69,15 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                         {format(new Date(post.date), "MMM dd, yyyy")}
                       </div>
                       <div className="flex flex-wrap gap-1 mt-2">
-                        {post.category && (
-                          <span className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
-                            {post.category}
+                        {post.categories?.slice(0, 2).map(cat => (
+                          <span key={cat} className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+                            {cat}
                           </span>
-                        )}
+                        ))}
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="md:col-span-3 space-y-4">
                     <Link href={`/blog/${post.slug.join("/")}`} className="block group">
                       <h3 className="text-2xl md:text-3xl font-black leading-tight tracking-tight group-hover:text-primary transition-colors">
@@ -89,7 +89,7 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                         </p>
                       )}
                     </Link>
-                    <Link 
+                    <Link
                       href={`/blog/${post.slug.join("/")}`}
                       className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:translate-x-2 transition-transform"
                     >

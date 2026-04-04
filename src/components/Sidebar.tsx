@@ -101,17 +101,6 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
         </div>
       </section>
 
-      {/* 4. Newsletter / Call to Action (Optional Style) */}
-      <div className="rounded-3xl bg-zinc-950 p-6 text-white overflow-hidden relative group">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-500"></div>
-        <h4 className="text-lg font-black tracking-tighter mb-2 relative z-10">Bold Tech Daily</h4>
-        <p className="text-xs text-zinc-400 font-medium leading-relaxed relative z-10">
-          Subscribe for cutting-edge tech updates.
-        </p>
-        <button className="mt-4 w-full py-3 bg-primary rounded-xl text-xs font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">
-          Join Log
-        </button>
-      </div>
     </aside>
   )
 }
