@@ -49,13 +49,15 @@ excerpt: "정적 블로그의 한계를 넘어, Supabase를 활용하여 Google,
 - **Authorization callback URL**: Supabase에서 알려준 리다이렉트 주소. 이 값이 조금만 틀려도 OAuth 오류가 발생하므로 주의해야 합니다.
 
 ### 03. Kakao Developers
-카카오는 한국 서비스 개발 시 빼놓을 수 없으며, 설정 용어가 직관적이지 않은 점이 가장 큰 장벽입니다.
+카카오는 한국 서비스 개발 시 빼놓을 수 없으며, 설정 용어가 다른 플랫폼과 달라 헷갈리기 쉽습니다. 특히 메뉴 깊숙한 곳에 설정 항목들이 분산되어 있으니 아래 경로를 정확히 확인하세요.
 
 **발급 경로**:
-1. [Kakao Developers](https://developers.kakao.com/) 회원가입 및 앱 생성
-2. 좌측 메뉴 구석의 **[요약 정보]** 탭에서 확인 가능한 **'REST API 키'**가 바로 Supabase에 넣을 `Client ID`가 됩니다!
-3. 좌측 메뉴 **[카카오 로그인]** 탭에서 **'활성화 설정'을 반드시 'ON'**으로 켜야 합니다. 미활성화 시 로그인 창조차 뜨지 않습니다.
-4. 좌측 하단 **[카카오 로그인] -> [보안]** 탭에서 얻을 수 있는 **'Client Secret'** 코드를 Supabase에 등록합니다.
+1. [Kakao Developers](https://developers.kakao.com/) 로그인 후 내 애플리케이션 상세 페이지로 이동합니다.
+2. 좌측 메뉴에서 **[앱 설정]** -> **[앱]** 탭을 확장하고 **[플랫폼 키]** 메뉴를 클릭합니다.
+   - 이 화면 상단에 보이는 **'REST API 키'**(기본 키워드: Default Rest API Key)가 바로 여러분이 Supabase에 넣을 `Client ID`입니다!
+   - 또한, **동일한 화면 하단**에 위치한 **'카카오 로그인 리다이렉트 URI'** 필드에 Supabase Callback 주소(`https://<id>.supabase.co/auth/v1/callback`)를 정확히 입력하고 저장합니다.
+3. 좌측 하단의 **[제품 설정]** -> **[카카오 로그인]** 메뉴로 이동하여 **'활성화 설정'을 반드시 'ON'**으로 켭니다. (미활성화 시 로그인 API가 동작하지 않습니다.)
+4. 마지막으로 **[제품 설정]** -> **[카카오 로그인]** -> **[보안]** 탭으로 진입하여 **'클라이언트 시크릿(Client Secret)'** 코드를 확인/생성 후 Supabase에 등록합니다.
 
 ![Kakao OAuth 설정 화면](/images/blog/kakao_auth.png)
 
