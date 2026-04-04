@@ -26,10 +26,10 @@ export default async function PostPage(props: { params: Promise<Params> }) {
   const tags = getAllTags();
 
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24 max-w-[1400px]">
-      <div className="flex flex-col lg:flex-row gap-16 justify-center">
+    <div className="container mx-auto px-4 py-12 md:py-24 max-w-7xl">
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-center">
         {/* Main Article Content */}
-        <div className="flex-1 max-w-[900px]">
+        <div className="flex-1 max-w-4xl w-full">
           <Link
             href="/blog"
             className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary mb-12 transition-all group"
@@ -52,7 +52,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                 ))}
               </div>
 
-              <h1 className="text-4xl md:text-7xl font-black tracking-tighter leading-[1.1] text-balance">
+              <h1 className="text-4xl md:text-7xl font-black tracking-tighter leading-tight text-balance">
                 {postData.title}
               </h1>
 
