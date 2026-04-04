@@ -1,9 +1,7 @@
 ---
 title: "Gill's Log 블로그를 시작하며"
 date: "2026-04-04"
-categories:
-  - "일상"
-  - "개발"
+category: "General"
 tags:
   - "첫걸음"
   - "Hello-World"

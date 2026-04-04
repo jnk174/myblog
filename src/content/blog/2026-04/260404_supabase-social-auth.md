@@ -2,7 +2,7 @@
 title: "Next.js 정적 블로그의 하이브리드 진화: Supabase를 활용한 소셜 로그인 & 실시간 통계 완벽 가이드"
 date: "2026-04-04"
 excerpt: "정적 사이트의 속도와 동적 서비스의 상호작용을 동시에 잡는 방법. Google, GitHub, Kakao 소셜 로그인 연동부터 실시간 대시보드 구축까지의 기술적 상세 과정을 공유합니다."
-categories: ["Development", "Technical Guide"]
+category: "Technical Guide"
 tags: ["Supabase", "Next.js", "OAuth", "Web-Development"]
 ---
 

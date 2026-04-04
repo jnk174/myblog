@@ -1,9 +1,7 @@
 ---
 title: "Next.js 정적 블로그: 빌드부터 Vercel 배포까지 완벽 가이드"
 date: "2026-04-04"
-categories:
-  - "튜토리얼"
-  - "배포"
+category: "Development"
 tags:
   - "Next.js"
   - "Vercel"
