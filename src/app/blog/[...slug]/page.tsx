@@ -27,7 +27,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-24 max-w-7xl">
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-center">
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-center items-start w-full">
         {/* Main Article Content */}
         <div className="flex-1 max-w-4xl w-full">
           <Link
@@ -52,7 +52,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                 ))}
               </div>
 
-              <h1 className="text-4xl md:text-7xl font-black tracking-tighter leading-tight text-balance">
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-[1.2] text-balance">
                 {postData.title}
               </h1>
 
