@@ -1,8 +1,9 @@
-import { getPostData, getAllPostSlugs } from "@/lib/posts";
+import { getPostData, getAllPostSlugs, getAllCategories, getAllTags } from "@/lib/posts";
 import { format } from "date-fns";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, ChevronLeft } from "lucide-react";
 import CommentSection from "@/components/CommentSection";
+import Sidebar from "@/components/Sidebar";
 
 type Params = {
   slug: string[];
@@ -20,46 +21,75 @@ export default async function PostPage(props: { params: Promise<Params> }) {
   const postData = await getPostData(params.slug);
   const slugJoined = params.slug.join("/");
 
+  const categories = getAllCategories();
+  const tags = getAllTags();
+
   return (
-    <article className="container mx-auto px-4 py-12 md:py-24 max-w-3xl">
-      <Link
-        href="/blog"
-        className="inline-flex items-center text-sm font-black uppercase tracking-widest text-muted-foreground hover:text-primary mb-8 transition-colors"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to Blog
-      </Link>
-      
-      <header className="mb-10 text-center">
-        <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 text-balance">
-          {postData.title}
-        </h1>
-        <div className="flex items-center justify-center space-x-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-          <time dateTime={postData.date}>
-            {format(new Date(postData.date), "MMMM dd, yyyy")}
-          </time>
-          {postData.categories && postData.categories.length > 0 && (
-            <>
-              <span>•</span>
-              <span className="text-primary">
-                {postData.categories.join(", ")}
-              </span>
-            </>
-          )}
+    <div className="container mx-auto px-4 py-12 md:py-24">
+      <div className="flex flex-col lg:flex-row gap-16">
+        {/* Main Article Content */}
+        <div className="flex-1 max-w-4xl">
+          <Link
+            href="/blog"
+            className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary mb-12 transition-all group"
+          >
+            <ChevronLeft className="mr-1 h-3 w-3 group-hover:-translate-x-1 transition-transform" />
+            Back to Archive
+          </Link>
+          
+          <article className="space-y-12">
+            <header className="space-y-6">
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1.5 rounded-full">
+                  <Calendar className="h-3 w-3" />
+                  {format(new Date(postData.date), "MMMM dd, yyyy")}
+                </div>
+                {postData.categories?.map(cat => (
+                  <span key={cat} className="text-[10px] font-black uppercase tracking-widest text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+
+              <h1 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] text-balance">
+                {postData.title}
+              </h1>
+
+              <div className="flex flex-wrap gap-2 pt-4">
+                {postData.tags?.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-muted-foreground/60"
+                  >
+                    <Tag className="mr-1 h-3 w-3 opacity-50" />
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </header>
+
+            <div
+              className="prose prose-neutral dark:prose-invert max-w-none 
+                prose-headings:font-black prose-headings:tracking-tighter prose-headings:uppercase
+                prose-p:text-lg prose-p:font-medium prose-p:leading-relaxed prose-p:text-foreground/80
+                prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800 prose-pre:rounded-3xl
+                prose-img:rounded-3xl prose-img:border prose-img:shadow-2xl"
+              dangerouslySetInnerHTML={{ __html: postData.contentHtml || "" }}
+            />
+
+            <div className="mt-32 pt-16 border-t border-primary/10">
+              <CommentSection postSlug={slugJoined} />
+            </div>
+          </article>
         </div>
-      </header>
 
-      <div
-        className="prose prose-neutral dark:prose-invert max-w-none 
-          prose-headings:font-black prose-headings:tracking-tighter
-          prose-p:font-medium prose-p:leading-relaxed
-          prose-pre:bg-zinc-950 prose-pre:border prose-pre:border-zinc-800"
-        dangerouslySetInnerHTML={{ __html: postData.contentHtml || "" }}
-      />
-
-      <div className="mt-24 pt-12 border-t">
-        <CommentSection postSlug={slugJoined} />
+        {/* Sticky Sidebar */}
+        <div className="lg:w-80 shrink-0">
+          <div className="lg:sticky lg:top-24">
+            <Sidebar categories={categories} tags={tags} />
+          </div>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
 import type { PostData } from "@/lib/posts";
+import Sidebar from "./Sidebar";
+import { Search, Calendar, ChevronRight } from "lucide-react";
 
 type BlogListProps = {
   posts: PostData[];
@@ -12,121 +14,95 @@ type BlogListProps = {
 };
 
 export default function BlogList({ posts, categories, tags }: BlogListProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("search")?.toLowerCase() || "";
 
   const filteredPosts = posts.filter((post) => {
-    const matchCategory = selectedCategory
-      ? post.categories?.includes(selectedCategory)
-      : true;
-    const matchTag = selectedTag ? post.tags?.includes(selectedTag) : true;
-    return matchCategory && matchTag;
+    if (!searchQuery) return true;
+    
+    const searchTarget = [
+      post.title,
+      post.excerpt,
+      ...(post.categories || []),
+      ...(post.tags || []),
+    ].join(" ").toLowerCase();
+
+    return searchTarget.includes(searchQuery);
   });
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      {/* Sidebar for Filters */}
-      <aside className="w-full md:w-64 space-y-8 flex-shrink-0">
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Categories</h3>
-          <ul className="space-y-2">
-            <li>
-              <button
-                className={`text-sm hover:text-primary transition-colors ${
-                  !selectedCategory ? "text-primary font-bold" : "text-muted-foreground"
-                }`}
-                onClick={() => setSelectedCategory(null)}
-              >
-                All Categories
-              </button>
-            </li>
-            {categories.map((cat) => (
-              <li key={cat}>
-                <button
-                  className={`text-sm hover:text-primary transition-colors ${
-                    selectedCategory === cat
-                      ? "text-primary font-bold"
-                      : "text-muted-foreground"
-                  }`}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  {cat}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="container mx-auto px-4 py-12 md:py-24">
+      <div className="flex flex-col lg:flex-row gap-16">
+        {/* Main Content */}
+        <div className="flex-1 space-y-12">
+          <header className="space-y-4">
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase">
+              {searchQuery ? `Search: ${searchQuery}` : "The Archive"}
+            </h1>
+            <p className="text-muted-foreground font-medium max-w-xl">
+              Exploring the intersection of code, design, and future tech.
+              {searchQuery && ` Found ${filteredPosts.length} results.`}
+            </p>
+          </header>
 
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Tags</h3>
-          <div className="flex flex-wrap gap-2">
-            <button
-              className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
-                !selectedTag
-                  ? "bg-primary text-primary-foreground hover:bg-primary/80"
-                  : "bg-background hover:bg-accent hover:text-accent-foreground"
-              }`}
-              onClick={() => setSelectedTag(null)}
-            >
-              All Tags
-            </button>
-            {tags.map((tag) => (
-              <button
-                key={tag}
-                className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${
-                  selectedTag === tag
-                    ? "bg-primary text-primary-foreground hover:bg-primary/80"
-                    : "bg-background hover:bg-accent hover:text-accent-foreground"
-                }`}
-                onClick={() => setSelectedTag(tag)}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1">
-        <h2 className="text-2xl font-bold mb-6">
-          {selectedCategory || selectedTag
-            ? `Viewing: ${[selectedCategory, selectedTag].filter(Boolean).join(" & ")}`
-            : "All Posts"}
-        </h2>
-        {filteredPosts.length === 0 ? (
-          <p className="text-muted-foreground">No posts found matching the criteria.</p>
-        ) : (
-          <div className="space-y-6">
-            {filteredPosts.map((post) => (
-              <article key={post.slug.join("/")} className="border-b pb-6 last:border-0">
-                <Link href={`/blog/${post.slug.join("/")}`} className="group relative">
-                  <span className="text-sm text-muted-foreground mb-2 block">
-                    {format(new Date(post.date), "MMMM dd, yyyy")}
-                  </span>
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h3>
-                  {post.excerpt && (
-                    <p className="text-muted-foreground line-clamp-2 md:line-clamp-3 mb-4">
-                      {post.excerpt}
-                    </p>
-                  )}
-                </Link>
-                <div className="flex gap-2">
-                  {post.categories?.map((cat) => (
-                    <span
-                      key={cat}
-                      className="text-xs font-medium text-emerald-600 dark:text-emerald-400"
+          {filteredPosts.length === 0 ? (
+            <div className="py-20 text-center border-2 border-dashed rounded-3xl border-primary/10 bg-primary/5">
+              <Search className="h-12 w-12 mx-auto text-muted-foreground mb-4 opacity-20" />
+              <p className="text-lg font-bold text-muted-foreground">No posts matching your search.</p>
+              <Link href="/blog" className="text-sm text-primary font-black uppercase tracking-widest mt-4 inline-block hover:underline">
+                Clear Filters
+              </Link>
+            </div>
+          ) : (
+            <div className="grid gap-12">
+              {filteredPosts.map((post) => (
+                <article key={post.slug.join("/")} className="group relative grid md:grid-cols-4 gap-8 items-start">
+                  <div className="md:col-span-1 pt-2">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 w-fit px-2 py-1 rounded-md">
+                        <Calendar className="h-3 w-3" />
+                        {format(new Date(post.date), "MMM dd, yyyy")}
+                      </div>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {post.categories?.slice(0, 2).map(cat => (
+                          <span key={cat} className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="md:col-span-3 space-y-4">
+                    <Link href={`/blog/${post.slug.join("/")}`} className="block group">
+                      <h3 className="text-2xl md:text-3xl font-black leading-tight tracking-tight group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+                      {post.excerpt && (
+                        <p className="text-muted-foreground font-medium leading-relaxed mt-3 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                      )}
+                    </Link>
+                    <Link 
+                      href={`/blog/${post.slug.join("/")}`}
+                      className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:translate-x-2 transition-transform"
                     >
-                      {cat}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
+                      Read Article <ChevronRight className="ml-1 h-3 w-3" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="lg:w-80 shrink-0">
+          <div className="lg:sticky lg:top-24">
+            <Sidebar categories={categories} tags={tags} />
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
