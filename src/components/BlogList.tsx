@@ -7,10 +7,15 @@ import type { PostData } from "@/lib/posts";
 import Sidebar from "./Sidebar";
 import { Search, Calendar, ChevronRight } from "lucide-react";
 
+type SidebarItem = {
+  name: string
+  count: number
+}
+
 type BlogListProps = {
   posts: PostData[];
-  categories: string[];
-  tags: string[];
+  categories: SidebarItem[];
+  tags: SidebarItem[];
 };
 
 export default function BlogList({ posts, categories, tags }: BlogListProps) {
@@ -100,7 +105,7 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
         {/* Sidebar */}
         <div className="lg:w-80 shrink-0">
           <div className="lg:sticky lg:top-24">
-            <Sidebar categories={categories} tags={tags} />
+            <Sidebar categories={categories} tags={tags} totalPosts={posts.length} />
           </div>
         </div>
       </div>

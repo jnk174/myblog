@@ -107,20 +107,32 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
   };
 }
 
-export function getAllCategories(): string[] {
+export function getAllCategories(): { name: string; count: number }[] {
   const posts = getSortedPostsData();
-  const categories = new Set<string>();
+  const categoryCounts: Record<string, number> = {};
+  
   posts.forEach((post) => {
-    post.categories?.forEach((cat) => categories.add(cat));
+    post.categories?.forEach((cat) => {
+      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    });
   });
-  return Array.from(categories);
+
+  return Object.entries(categoryCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count); // 개수 많은 순으로 정렬
 }
 
-export function getAllTags(): string[] {
+export function getAllTags(): { name: string; count: number }[] {
   const posts = getSortedPostsData();
-  const tags = new Set<string>();
+  const tagCounts: Record<string, number> = {};
+  
   posts.forEach((post) => {
-    post.tags?.forEach((tag) => tags.add(tag));
+    post.tags?.forEach((tag) => {
+      tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+    });
   });
-  return Array.from(tags);
+
+  return Object.entries(tagCounts)
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
 }

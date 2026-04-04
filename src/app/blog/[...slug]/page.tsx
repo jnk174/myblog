@@ -1,4 +1,4 @@
-import { getPostData, getAllPostSlugs, getAllCategories, getAllTags } from "@/lib/posts";
+import { getPostData, getAllPostSlugs, getAllCategories, getAllTags, getSortedPostsData } from "@/lib/posts";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Tag, ChevronLeft } from "lucide-react";
@@ -88,7 +88,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
         <div className="lg:w-80 shrink-0">
           <div className="lg:sticky lg:top-24">
             <Suspense fallback={<div className="h-40 rounded-3xl bg-secondary animate-pulse" />}>
-              <Sidebar categories={categories} tags={tags} />
+              <Sidebar categories={categories} tags={tags} totalPosts={getSortedPostsData().length} />
             </Suspense>
           </div>
         </div>

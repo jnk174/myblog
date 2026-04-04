@@ -5,12 +5,18 @@ import { useSearchParams } from "next/navigation"
 import { Tag, Folder, Hash } from "lucide-react"
 import SearchBar from "./SearchBar"
 
-type SidebarProps = {
-  categories: string[]
-  tags: string[]
+type SidebarItem = {
+  name: string
+  count: number
 }
 
-export default function Sidebar({ categories, tags }: SidebarProps) {
+type SidebarProps = {
+  categories: SidebarItem[]
+  tags: SidebarItem[]
+  totalPosts?: number
+}
+
+export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) {
   const searchParams = useSearchParams()
   const activeSearch = searchParams.get("search") || ""
 
@@ -38,20 +44,32 @@ export default function Sidebar({ categories, tags }: SidebarProps) {
               !activeSearch ? "bg-primary text-white shadow-lg shadow-primary/25" : "hover:bg-primary/5 text-muted-foreground hover:text-primary"
             }`}
           >
-            <span>All Posts</span>
+            <div className="flex items-center gap-2">
+              <span>All Posts</span>
+              {totalPosts !== undefined && (
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${!activeSearch ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
+                  {totalPosts}
+                </span>
+              )}
+            </div>
             <span className="text-[10px] opacity-50 font-black">ALL</span>
           </Link>
           {categories.map((cat) => (
             <Link
-              key={cat}
-              href={`/blog?search=${encodeURIComponent(cat)}`}
+              key={cat.name}
+              href={`/blog?search=${encodeURIComponent(cat.name)}`}
               className={`group flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all ${
-                activeSearch.toLowerCase() === cat.toLowerCase()
+                activeSearch.toLowerCase() === cat.name.toLowerCase()
                   ? "bg-primary text-white shadow-lg shadow-primary/25"
                   : "hover:bg-primary/5 text-muted-foreground hover:text-primary"
               }`}
             >
-              <span>{cat}</span>
+              <div className="flex items-center gap-2">
+                <span>{cat.name}</span>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
+                  {cat.count}
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -66,15 +84,18 @@ export default function Sidebar({ categories, tags }: SidebarProps) {
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <Link
-              key={tag}
-              href={`/blog?search=${encodeURIComponent(tag)}`}
-              className={`px-3 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider transition-all border ${
-                activeSearch.toLowerCase() === tag.toLowerCase()
+              key={tag.name}
+              href={`/blog?search=${encodeURIComponent(tag.name)}`}
+              className={`px-3 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider transition-all border flex items-center gap-1.5 ${
+                activeSearch.toLowerCase() === tag.name.toLowerCase()
                   ? "bg-primary border-primary text-white shadow-md shadow-primary/25"
                   : "border-primary/10 text-muted-foreground hover:border-primary/40 hover:text-primary bg-primary/5"
               }`}
             >
-              #{tag}
+              <span>#{tag.name}</span>
+              <span className={`text-[9px] opacity-60 font-bold ${activeSearch.toLowerCase() === tag.name.toLowerCase() ? "text-white" : "text-primary"}`}>
+                {tag.count}
+              </span>
             </Link>
           ))}
         </div>
