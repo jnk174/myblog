@@ -16,20 +16,50 @@ excerpt: "정적 블로그의 한계를 넘어, Supabase를 활용하여 Google,
 
 ---
 
-## 1. Supabase OAuth 프로바이더 설정의 핵심
+## 1. OAuth 프로바이더 발급처 위치 및 설정 가이드
 
-소셜 로그인은 각 프로바이더(플랫폼)마다 요구하는 보안 규격과 설정 인터페이스가 다릅니다. 이 과정에서의 사소한 오타나 설정 누락이 치명적인 `Auth Error`를 유발합니다.
+가장 많은 분들이 어려워하시는 "대체 내 키는 어디서 발급받아야 하는가?"에 대한 명확한 해답을 스크린샷과 함께 정리했습니다. 각 서비스 모두 복잡한 콘솔 창을 열게 되므로 아래 경로만 정확히 따라가세요.
 
-### Google Cloud Platform (GCP)
-구글 로그인을 설정할 때 가장 많은 실수가 발생하는 부분은 **"애플리케이션 유형"**입니다.
-반드시 **'웹 애플리케이션(Web Application)'**으로 지정해야 Supabase에서 발급받은 `Callback URL`을 입력할 수 있는 승인된 리다이렉션 URI 필드가 나타납니다. 만약 '데스크톱' 혹은 'iOS/Android'를 선택하면 `redirect_uri_mismatch` 오류의 늪에 빠지게 됩니다.
+### 01. Google Cloud Platform (GCP)
+구글의 경우 클라우드 콘솔의 UI가 방대해 화면을 찾기 어렵습니다.
 
-### GitHub Developer Settings
-개발자 친화적인 GitHub은 OAuth App 생성이 매우 직관적입니다.
-명심할 것은 `Homepage URL`에는 여러분의 서비스 최상단 도메인을, `Authorization callback URL`에는 정확히 Supabase 대시보드에 명시된 리다이렉트 주소(예: `https://<project-ref>.supabase.co/auth/v1/callback`)를 기입하는 것뿐입니다.
+**발급 경로**:
+1. [Google Cloud Console](https://console.cloud.google.com/) 접속 및 로그인
+2. 상단 네비게이션에서 새 프로젝트 생성 (ex. `my-blog-project`)
+3. 좌측 메뉴에서 **[API 및 서비스]** -> **[사용자 인증 정보]** 클릭
+4. 상단 **[+ 사용자 인증 정보 만들기]** 탭을 누르고 **[OAuth 클라이언트 ID]** 선택
 
-### Kakao Developers
-국내 서비스 타겟팅 시 필수적인 카카오 로그인은 다른 플랫폼과 달리 **'REST API 키'**를 Client ID로 사용한다는 점을 잊지 마세요. 또한 카카오 디벨로퍼스 콘솔의 [내 애플리케이션] > [카카오 로그인] 메뉴에서 활성화(ON) 상태로 변경해야만 API가 정상 동작합니다.
+![Google OAuth 설정 화면](/images/blog/google_auth.png)
+
+> [!WARNING]
+> 이때 가장 중요한 것은 **애플리케이션 유형**을 반드시 **'웹 애플리케이션'**으로 지정해야 한다는 점입니다. 그래야만 하단에 '승인된 리디렉션 URI' 입력 칸이 나타나며, 여기에 Supabase 콘솔에서 제공하는 Callback URL(`https://<id>.supabase.co/auth/v1/callback`)을 입력해야 `redirect_uri_mismatch` 오류가 발생하지 않습니다.
+
+### 02. GitHub Developer Settings
+개발자 친화적인 GitHub은 설정이 가장 직관적이고 숨겨져 있지 않아 편안합니다.
+
+**발급 경로**:
+1. GitHub 로그인 후 우측 상단 프로필 클릭 -> **[Settings]** 
+2. 좌측 맨 하단의 **[Developer settings]** 클릭
+3. 좌측 탭에서 **[OAuth Apps]** 선택 후 **[New OAuth App]** 클릭
+
+![GitHub OAuth 설정 화면](/images/blog/github_auth.png)
+
+**주요 설정 항목**:
+- **Homepage URL**: 여러분 블로그의 최상단 도메인 (`https://gill-log.vercel.app/`)
+- **Authorization callback URL**: Supabase에서 알려준 리다이렉트 주소. 이 값이 조금만 틀려도 OAuth 오류가 발생하므로 주의해야 합니다.
+
+### 03. Kakao Developers
+카카오는 한국 서비스 개발 시 빼놓을 수 없으며, 설정 용어가 직관적이지 않은 점이 가장 큰 장벽입니다.
+
+**발급 경로**:
+1. [Kakao Developers](https://developers.kakao.com/) 회원가입 및 앱 생성
+2. 좌측 메뉴 구석의 **[요약 정보]** 탭에서 확인 가능한 **'REST API 키'**가 바로 Supabase에 넣을 `Client ID`가 됩니다!
+3. 좌측 메뉴 **[카카오 로그인]** 탭에서 **'활성화 설정'을 반드시 'ON'**으로 켜야 합니다. 미활성화 시 로그인 창조차 뜨지 않습니다.
+4. 좌측 하단 **[카카오 로그인] -> [보안]** 탭에서 얻을 수 있는 **'Client Secret'** 코드를 Supabase에 등록합니다.
+
+![Kakao OAuth 설정 화면](/images/blog/kakao_auth.png)
+
+위 3가지 플랫폼의 고유 키들을 발급받아 Supabase 대시보드(Authentication -> Providers)에 정확히 채워 넣는 것이 소셜 로그인의 첫 번째이자 가장 험난한 고개입니다.
 
 ---
 
