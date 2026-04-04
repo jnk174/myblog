@@ -8,7 +8,7 @@ export default function Navbar() {
         <div className="flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <span className="font-bold sm:inline-block">
-              Tech Blog
+              Gill&apos;s Log
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">

@@ -10,7 +10,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center space-y-4 text-center">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-            Welcome to the Tech Blog
+            Welcome to Gill&apos;s Log
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
             A beautiful static blog built with Next.js, explicitly designed using generic and flexible components from Shadcn UI.

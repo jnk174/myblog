@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tech Blog",
+  title: "Gill's Log",
   description: "A beautifully designed Markdown blog built with Next.js and Shadcn UI.",
 };
 
