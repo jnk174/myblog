@@ -31,12 +31,12 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
   });
 
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="flex flex-col lg:flex-row gap-16">
+    <div className="container mx-auto px-4 py-12 md:py-24 max-w-[1400px]">
+      <div className="flex flex-col lg:flex-row gap-16 justify-center">
         {/* Main Content */}
-        <div className="flex-1 space-y-12">
+        <div className="flex-1 space-y-12 max-w-[900px]">
           <header className="space-y-4">
-            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase">
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[1.1]">
               {searchQuery ? `Search: ${searchQuery}` : "The Archive"}
             </h1>
             <p className="text-muted-foreground font-medium max-w-xl">
