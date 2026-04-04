@@ -33,11 +33,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-8 flex justify-center">
-        <VisitorCounter />
-      </section>
-
-      <section className="mt-16 md:mt-24 max-w-5xl mx-auto">
+      <section className="mt-16 md:mt-24 max-w-5xl mx-auto mb-16">
         <h2 className="text-2xl font-bold mb-8">Latest Posts</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {latestPosts.map((post) => (
@@ -66,6 +62,10 @@ export default function Home() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="mt-24">
+        <VisitorCounter />
       </section>
     </div>
   );
