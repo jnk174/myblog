@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Tag, ChevronLeft } from "lucide-react";
 import CommentSection from "@/components/CommentSection";
 import Sidebar from "@/components/Sidebar";
+import { Suspense } from "react";
 
 type Params = {
   slug: string[];
@@ -86,7 +87,9 @@ export default async function PostPage(props: { params: Promise<Params> }) {
         {/* Sticky Sidebar */}
         <div className="lg:w-80 shrink-0">
           <div className="lg:sticky lg:top-24">
-            <Sidebar categories={categories} tags={tags} />
+            <Suspense fallback={<div className="h-40 rounded-3xl bg-secondary animate-pulse" />}>
+              <Sidebar categories={categories} tags={tags} />
+            </Suspense>
           </div>
         </div>
       </div>
