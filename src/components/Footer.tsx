@@ -30,14 +30,6 @@ export default function Footer() {
                 <Mail className="h-4 w-4" />
                 jnk174@gmail.com
               </a>
-              <a 
-                href="https://github.com/jnk17" 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                GitHub
-              </a>
             </div>
           </div>
         </div>

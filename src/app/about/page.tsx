@@ -45,21 +45,13 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="pt-8 border-t flex flex-wrap gap-4">
+        <div className="pt-8 border-t">
           <Link
             href="/blog"
             className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
           >
             블로그 둘러보기
           </Link>
-          <a
-            href="https://github.com/jnk17"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            GitHub
-          </a>
         </div>
       </div>
     </div>
