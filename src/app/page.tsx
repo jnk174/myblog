@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getSortedPostsData } from "@/lib/posts";
-import { format } from "date-fns";
 import VisitorCounter from "@/components/VisitorCounter";
+import GuestBook from "@/components/GuestBook";
 
 import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
 
@@ -16,7 +16,7 @@ export default function Home() {
             Welcome to Gill&apos;s Log
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            A beautiful static blog built with Next.js, explicitly designed using generic and flexible components from Shadcn UI.
+            배우고, 기록하고, 성장하는 것을 좋아하는 사람의 학습 일지입니다.
           </p>
         </div>
         <div className="space-x-4">
@@ -43,7 +43,11 @@ export default function Home() {
         <InfiniteScrollPosts allPosts={allPosts} initialBatchSize={6} />
       </section>
 
-      <section className="mt-24">
+      <section className="mt-24 mb-16">
+        <GuestBook />
+      </section>
+
+      <section className="mt-12">
         <VisitorCounter />
       </section>
     </div>

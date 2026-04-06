@@ -1,6 +1,5 @@
 import { getSortedPostsData, getAllCategories, getAllTags } from "@/lib/posts";
 import BlogList from "@/components/BlogList";
-import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
 
 export default function BlogPage() {
@@ -10,7 +9,6 @@ export default function BlogPage() {
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-24 max-w-7xl">
-      <h1 className="text-4xl font-bold tracking-tight mb-12 border-b pb-4 text-center">Blog Archive</h1>
       <Suspense fallback={<div className="py-20 text-center font-black uppercase opacity-20">Loading Archive...</div>}>
         <BlogList posts={posts} categories={categories} tags={tags} />
       </Suspense>

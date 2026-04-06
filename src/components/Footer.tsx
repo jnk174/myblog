@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-xl font-bold tracking-tighter">Gill&apos;s Log</h3>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              A premium technical space for sharing engineering insights and daily growth.
+              배우고, 기록하고, 성장하는 것을 좋아하는 사람의 학습 일지입니다.
             </p>
           </div>
           <div className="space-y-4">
@@ -21,10 +22,22 @@ export default function Footer() {
           </div>
           <div className="space-y-4">
             <h4 className="text-sm font-black uppercase tracking-widest text-primary">Connect</h4>
-            <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium underline underline-offset-4">GitHub</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium underline underline-offset-4">Twitter</a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm font-medium underline underline-offset-4">LinkedIn</a>
+            <div className="flex flex-col space-y-2 text-sm font-medium">
+              <a 
+                href="mailto:jnk174@gmail.com" 
+                className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Mail className="h-4 w-4" />
+                jnk174@gmail.com
+              </a>
+              <a 
+                href="https://github.com/jnk17" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                GitHub
+              </a>
             </div>
           </div>
         </div>
@@ -32,10 +45,6 @@ export default function Footer() {
           <p className="text-xs font-medium text-muted-foreground">
             © {new Date().getFullYear()} Gill&apos;s Log. All rights reserved.
           </p>
-          <div className="flex items-center gap-2">
-            <span className="h-1 w-1 rounded-full bg-primary animate-pulse" />
-            <p className="text-[10px] font-black uppercase tracking-widest text-primary/50">Bold Tech Engine v1.0</p>
-          </div>
         </div>
       </div>
     </footer>
