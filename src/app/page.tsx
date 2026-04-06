@@ -3,8 +3,10 @@ import { getSortedPostsData } from "@/lib/posts";
 import { format } from "date-fns";
 import VisitorCounter from "@/components/VisitorCounter";
 
+import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
+
 export default function Home() {
-  const latestPosts = getSortedPostsData().slice(0, 3); // 최근 3개 포스트
+  const allPosts = getSortedPostsData();
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-24 lg:py-32">
@@ -34,34 +36,11 @@ export default function Home() {
       </section>
 
       <section className="mt-16 md:mt-24 max-w-5xl mx-auto mb-16">
-        <h2 className="text-2xl font-bold mb-8">Latest Posts</h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {latestPosts.map((post) => (
-            <Link key={post.slug.join("/")} href={`/blog/${post.slug.join("/")}`}>
-              <div className="flex flex-col space-y-2 rounded-lg border bg-card p-4 hover:shadow-md transition-shadow h-full">
-                <span className="text-sm text-muted-foreground">
-                  {format(new Date(post.date), "MMMM dd, yyyy")}
-                </span>
-                <h3 className="text-xl font-bold">{post.title}</h3>
-                {post.excerpt && (
-                  <p className="text-muted-foreground line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                )}
-                <div className="mt-auto pt-4 flex gap-2 flex-wrap">
-                  {post.tags?.slice(0, 3).map((tag: string) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Link>
-          ))}
+        <div className="flex items-center justify-between mb-8 pb-4 border-b">
+          <h2 className="text-2xl font-bold uppercase tracking-widest">The Archive</h2>
+          <span className="text-sm font-medium text-muted-foreground">{allPosts.length} Posts</span>
         </div>
+        <InfiniteScrollPosts allPosts={allPosts} initialBatchSize={6} />
       </section>
 
       <section className="mt-24">
