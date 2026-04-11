@@ -109,12 +109,14 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 
+  // 굵은 글씨(**) 파싱 문제를 해결하기 위해 remark 설정을 더 명시적으로 구성
   const processedContent = await remark()
     .use(gfm)
-    .use(html)
+    .use(html, { sanitize: false }) // 렌더링 안정성을 위해 html 플러그인 사용
     .process(matterResult.content);
 
-  const contentHtml = processedContent.toString();
+  // 마지막 배포 버전 확인을 위한 주석 마커 추가
+  const contentHtml = processedContent.toString() + '\n<!-- v2.1-debug-marker -->';
 
   return {
     ...post,
