@@ -109,14 +109,17 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const matterResult = matter(fileContents);
 
-  // 굵은 글씨(**) 파싱 문제를 해결하기 위해 remark 설정을 더 명시적으로 구성
+  // 굵은 글씨(**) 파싱 문제를 해결하기 위한 강력한 전처리 (Nuclear Option)
+  // 마크다운 파서가 한글 인접 문자를 제대로 처리하지 못하는 경우를 대비해 직접 강제 치환
+  const contentFixed = matterResult.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
   const processedContent = await remark()
     .use(gfm)
-    .use(html, { sanitize: false }) // 렌더링 안정성을 위해 html 플러그인 사용
-    .process(matterResult.content);
+    .use(html, { sanitize: false }) // <strong> 태그를 허용하기 위해 sanitize: false 설정
+    .process(contentFixed);
 
-  // 마지막 배포 버전 확인을 위한 주석 마커 추가
-  const contentHtml = processedContent.toString() + '\n<!-- v2.1-debug-marker -->';
+  // 마지막 배포 버전 확인을 위한 주석 마커 업데이트
+  const contentHtml = processedContent.toString() + '\n<!-- v2.2-force-bold-fix -->';
 
   return {
     ...post,
