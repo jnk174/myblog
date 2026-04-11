@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import Script from "next/script";
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -62,6 +63,27 @@ export default function RootLayout({
             <AnalyticsTracker />
           </Suspense>
           <Analytics />
+          {/* Naver Analytics */}
+          <Script 
+            id="naver-analytics"
+            strategy="afterInteractive"
+          >
+            {`
+              if (!localStorage.getItem('is_blog_admin')) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = '//wcs.pstatic.net/wcslog.js';
+                script.onload = function() {
+                  if(!window.wcs_add) window.wcs_add = {};
+                  window.wcs_add["wa"] = "19143454d3b5280";
+                  if(window.wcs) {
+                    window.wcs_do();
+                  }
+                };
+                document.head.appendChild(script);
+              }
+            `}
+          </Script>
         </ThemeProvider>
       </body>
     </html>
