@@ -47,6 +47,14 @@ export default function RootLayout({
       className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Google AdSense */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8397942313843986"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         <ThemeProvider
           attribute="class"
@@ -59,13 +67,6 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          {/* Google AdSense */}
-          <Script 
-            async 
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8397942313843986"
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
           <Suspense fallback={null}>
             <AnalyticsTracker />
           </Suspense>
