@@ -2,8 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
-import remarkRehype from 'remark-rehype';
-import rehypeStringify from 'rehype-stringify';
+import html from 'remark-html';
 import gfm from 'remark-gfm';
 
 const postsDirectory = path.join(process.cwd(), 'src/content/blog');
@@ -112,8 +111,7 @@ export async function getPostData(slugArray: string[]): Promise<PostData> {
 
   const processedContent = await remark()
     .use(gfm)
-    .use(remarkRehype)
-    .use(rehypeStringify)
+    .use(html)
     .process(matterResult.content);
 
   const contentHtml = processedContent.toString();
