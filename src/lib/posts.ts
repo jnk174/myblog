@@ -8,6 +8,19 @@ import gfm from 'remark-gfm';
 
 const postsDirectory = path.join(process.cwd(), 'src/content/blog');
 
+// 마크다운 기호를 제거하는 유틸리티
+function stripMarkdown(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '$1') // bold
+    .replace(/\*(.*?)\*/g, '$1')   // italic
+    .replace(/__(.*?)__/g, '$1')   // bold
+    .replace(/_(.*?)_/g, '$1')     // italic
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1') // links
+    .replace(/`{1,3}(.*?)`{1,3}/g, '$1') // code
+    .replace(/#/g, ''); // headers
+}
+
 export type PostData = {
   slug: string[]; // URL용 슬러그 (접두사 제거됨)
   fullSlug: string[]; // 실제 파일 경로용 슬러그 (접두사 포함)
@@ -68,6 +81,8 @@ export function getSortedPostsData(): PostData[] {
       slug,
       fullSlug: pathParts,
       ...data,
+      title: stripMarkdown(data.title),
+      excerpt: data.excerpt ? stripMarkdown(data.excerpt) : '',
     };
   });
 
