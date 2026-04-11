@@ -5,7 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/next"
-import Script from "next/script";
+import { Suspense } from "react";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -57,11 +58,10 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <Suspense fallback={null}>
+            <AnalyticsTracker />
+          </Suspense>
           <Analytics />
-          <Script 
-            src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-            strategy="afterInteractive"
-          />
         </ThemeProvider>
       </body>
     </html>
