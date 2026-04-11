@@ -59,6 +59,13 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          {/* Google AdSense */}
+          <Script 
+            async 
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8397942313843986"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
           <Suspense fallback={null}>
             <AnalyticsTracker />
           </Suspense>
