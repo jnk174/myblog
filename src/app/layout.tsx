@@ -26,6 +26,12 @@ const fontMono = Fira_Code({
 export const metadata: Metadata = {
   title: "Gill's Log",
   description: "A beautifully designed Markdown blog built with Next.js and Shadcn UI.",
+  verification: {
+    google: "YOUR_GOOGLE_VERIFICATION_CODE", // 구글 서치 콘솔에서 발급받은 코드로 교체하세요
+    other: {
+      "naver-site-verification": ["YOUR_NAVER_VERIFICATION_CODE"], // 네이버 서치어드바이저에서 발급받은 코드로 교체하세요
+    },
+  },
 };
 
 export default function RootLayout({
