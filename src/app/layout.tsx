@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import VercelAnalytics from "@/components/VercelAnalytics";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Suspense } from "react";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import Script from "next/script";
@@ -71,6 +72,7 @@ export default function RootLayout({
             <AnalyticsTracker />
           </Suspense>
           <VercelAnalytics />
+          <GoogleAnalytics />
           {/* Naver Analytics */}
           <Script 
             id="naver-analytics"
