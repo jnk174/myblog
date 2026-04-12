@@ -6,7 +6,9 @@ tags: ["심규열", "영어회화", "자기계발", "직장인", "훈련", "독�
 excerpt: "10년째 제자리걸음인 영어 공부의 원인은 '유창성'을 건너뛴 공부 방식이었습니다. 심규열 저자가 제시하는 4단계 학습법과 3단계 독학법을 통해, 지식을 기술로 바꾸는 진짜 훈련법을 정리해 봅니다."
 ---
 
-![영어 회화, 한국에서도 되던데요? 책 표지](/images/blog/book_english_speaking.jpg)
+<div align="center">
+  <img src="/images/blog/book_english_speaking.jpg" width="200" alt="영어 회화, 한국에서도 되던데요? 책 표지" />
+</div>
 
 # 10년 차 '영어 공부' 콜렉터의 고백
 
