@@ -8,6 +8,6 @@ export default function GoogleAnalytics() {
     return null;
   }
 
-  // G-XXXXXXXXXX 부분을 실제 측정 ID로 교체해야 합니다.
-  return <NextGA gaId="G-XXXXXXXXXX" />
+  // G-17WP4GLT79 측정 ID를 적용했습니다.
+  return <NextGA gaId="G-17WP4GLT79" />
 }
