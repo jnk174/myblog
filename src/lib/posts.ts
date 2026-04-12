@@ -137,9 +137,20 @@ export function getAllCategories(): { name: string; count: number }[] {
     }
   });
 
+  // 개발 관련 카테고리 키워드
+  const devKeywords = ["Development", "Next.js", "Vercel", "Supabase", "React", "Programming"];
+
   return Object.entries(categoryCounts)
     .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count); // 개수 많은 순으로 정렬
+    .sort((a, b) => {
+      const isDevA = devKeywords.some(keyword => a.name.includes(keyword));
+      const isDevB = devKeywords.some(keyword => b.name.includes(keyword));
+
+      if (isDevA && !isDevB) return 1; // A가 개발이면 뒤로
+      if (!isDevA && isDevB) return -1; // B가 개발이면 A가 앞으로
+      
+      return a.name.localeCompare(b.name); // 둘 다 같은 그룹이면 이름순
+    });
 }
 
 export function getAllTags(): { name: string; count: number }[] {
