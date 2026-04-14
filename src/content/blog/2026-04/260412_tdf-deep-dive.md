@@ -3,6 +3,7 @@ title: "TDF라는 블랙박스 뜯어보기: 내 노후 자금은 어디에 투�
 date: "2026-04-14"
 category: "Investment"
 tags: ["TDF", "자산배분", "연금저축"]
+thumbnail: "/images/blog/tdf-allocation-final.png"
 excerpt: "은퇴 시점에 맞춰 자산 비중을 알아서 조절해 준다는 TDF(Target Date Fund). 과연 그 속은 어떻게 채워져 있을까요? KODEX TDF 2050의 실제 자산 구성 내역을 통해 그 정교한 시스템을 들여다봅니다."
 ---
 

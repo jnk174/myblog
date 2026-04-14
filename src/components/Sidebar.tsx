@@ -54,24 +54,36 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
             </div>
             <span className="text-[10px] opacity-50 font-black">ALL</span>
           </Link>
-          {categories.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/blog?search=${encodeURIComponent(cat.name)}`}
-              className={`group flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all ${
-                activeSearch.toLowerCase() === cat.name.toLowerCase()
-                  ? "bg-primary text-white shadow-lg shadow-primary/25"
-                  : "hover:bg-primary/5 text-muted-foreground hover:text-primary"
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <span>{cat.name}</span>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
-                  {cat.count}
-                </span>
-              </div>
-            </Link>
-          ))}
+          {categories.map((cat) => {
+            const categoryColors: Record<string, string> = {
+              Investment: "bg-blue-500",
+              "Book Review": "bg-amber-500",
+              Education: "bg-emerald-500",
+              "Life & Growth": "bg-indigo-500",
+              Default: "bg-slate-400",
+            };
+            const dotColor = categoryColors[cat.name as keyof typeof categoryColors] || categoryColors.Default;
+            
+            return (
+              <Link
+                key={cat.name}
+                href={`/blog?search=${encodeURIComponent(cat.name)}`}
+                className={`group flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all ${
+                  activeSearch.toLowerCase() === cat.name.toLowerCase()
+                    ? "bg-primary text-white shadow-lg shadow-primary/25"
+                    : "hover:bg-primary/5 text-muted-foreground hover:text-primary"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className={`w-1.5 h-1.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white" : dotColor}`} />
+                  <span>{cat.name}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
+                    {cat.count}
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
         </div>
       </section>
 

@@ -40,13 +40,36 @@ export default async function PostPage(props: { params: Promise<Params> }) {
 
           <article className="space-y-12">
             <header className="space-y-6">
+              {/* Category-specific accent bar */}
+              {postData.category && (
+                <div className={`h-1 w-20 rounded-full mb-8 ${(() => {
+                  const categoryColors: Record<string, string> = {
+                    Investment: "bg-blue-600",
+                    "Book Review": "bg-amber-600",
+                    Education: "bg-emerald-600",
+                    "Life & Growth": "bg-indigo-600",
+                    Default: "bg-slate-400",
+                  };
+                  return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
+                })()}`} />
+              )}
+              
               <div className="flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1.5 rounded-full">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground border px-3 py-1.5 rounded-full">
                   <Calendar className="h-3 w-3" />
                   {format(new Date(postData.date), "MMMM dd, yyyy")}
                 </div>
                 {postData.category && (
-                  <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
+                  <span className={`text-[10px] font-black uppercase tracking-widest text-white px-3 py-1.5 rounded-full ${(() => {
+                    const categoryColors: Record<string, string> = {
+                      Investment: "bg-blue-600",
+                      "Book Review": "bg-amber-600",
+                      Education: "bg-emerald-600",
+                      "Life & Growth": "bg-indigo-600",
+                      Default: "bg-slate-400",
+                    };
+                    return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
+                  })()}`}>
                     {postData.category}
                   </span>
                 )}

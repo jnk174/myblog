@@ -3,6 +3,7 @@ title: "중3 아들의 첫 고1 수학 모의고사 도전: 73점(3등급)이라
 date: "2026-04-14"
 category: "Education"
 tags: ["중등수학", "모의고사", "자기주도학습"]
+thumbnail: "/images/blog/math_score_distribution.png"
 excerpt: "집에서 혼공 중인 중3 아들이 처음으로 고1 3월 모의고사(2022년)에 도전했습니다. 73점이라는 결과(3등급) 속에서 발견한 강점과 약점, 그리고 앞으로의 학습 방향을 정리해 봅니다."
 ---
 

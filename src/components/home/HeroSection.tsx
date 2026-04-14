@@ -13,7 +13,7 @@ export default function HeroSection() {
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-          개발, 투자, 교육, 독서에서 얻은 시행착오를 <br className="hidden md:block" />
+          투자, 교육, 독서에서 얻은 시행착오를 <br className="hidden md:block" />
           <span className="font-semibold text-foreground">Gill의 언어</span>로 차분하게 정리하여 남깁니다.
         </p>
         

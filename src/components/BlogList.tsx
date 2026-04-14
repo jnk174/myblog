@@ -63,18 +63,36 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
               {filteredPosts.map((post) => (
                 <article key={post.slug.join("/")} className="group relative grid md:grid-cols-4 gap-8 items-start">
                   <div className="md:col-span-1 pt-2">
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 w-fit px-2 py-1 rounded-md">
+                    <div className="flex flex-col gap-3">
+                      {/* Date Badge */}
+                      <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground w-fit">
                         <Calendar className="h-3 w-3" />
                         {format(new Date(post.date), "MMM dd, yyyy")}
                       </div>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {post.category && (
-                          <span className="text-[9px] font-black uppercase text-muted-foreground bg-secondary px-2 py-0.5 rounded">
-                            {post.category}
-                          </span>
-                        )}
-                      </div>
+                      
+                      {/* Category Identity */}
+                      {post.category && (
+                        <div className="flex items-center gap-2">
+                          {(() => {
+                            const categoryColors: Record<string, string> = {
+                              Investment: "bg-blue-600",
+                              "Book Review": "bg-amber-600",
+                              Education: "bg-emerald-600",
+                              "Life & Growth": "bg-indigo-600",
+                              Default: "bg-slate-400",
+                            };
+                            const color = categoryColors[post.category as keyof typeof categoryColors] || categoryColors.Default;
+                            return (
+                              <>
+                                <span className={`w-2 h-2 rounded-full ${color}`} />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
+                                  {post.category}
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </div>
+                      )}
                     </div>
                   </div>
 
