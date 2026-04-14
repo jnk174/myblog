@@ -33,7 +33,7 @@
   - **현재 활성 카테고리 리스트**:
     - `Investment`: 자산 투자 (재테크, 자산배분, 금융 정보)
     - `Book Review`: 도서 리뷰 및 요약
-    - `Coding & Automation`: 취미 코딩 및 업무 자동화 툴 (Development/DevOps 통합)
+    - `Coding & Automation`: 취미 코딩, 배포, 인프라, 업무 자동화 기록
     - `Education`: 자녀 교육, 학습 일지
 - `tags`: 태그 규칙 준수
 - `excerpt`: 포스트 내용을 요약한 한 줄 설명
