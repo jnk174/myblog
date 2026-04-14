@@ -32,7 +32,7 @@ excerpt: "은퇴 시점에 맞춰 자산 비중을 알아서 조절해 준다는
 | **iShares MSCI ACWI (ACWI)** | 3.51% | 글로벌 주식 (핵심) |
 | **전략 테마 섹터 (방산, 신재생, AI, SMR 등)** | 19.10% | **초과 수익 (알파)** |
 
-![KODEX TDF 2050 자산 집합](/images/blog/tdf-allocation-updated.png)
+![KODEX TDF 2050 자산 구성](/images/blog/tdf-allocation-final.png)
 
 ### 🔍 주요 편입 종목, 왜 들고 있을까?
 
