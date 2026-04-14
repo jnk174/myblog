@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Excel INDEX MATCH two criteria example</title>
+  <desc id="desc">A spreadsheet-style mockup showing INDEX MATCH with department and name criteria returning an amount.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="720" fill="#f5f7fb"/>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="58" width="1060" height="604" rx="18" fill="#ffffff"/>
+    <rect x="70" y="58" width="1060" height="52" rx="18" fill="#217346"/>
+    <rect x="70" y="92" width="1060" height="18" fill="#217346"/>
+
+    <text x="98" y="91" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Excel</text>
+    <text x="184" y="91" fill="#d9f99d" font-family="Segoe UI, Arial, sans-serif" font-size="15">INDEX MATCH 다중 조건 예시</text>
+
+    <rect x="94" y="128" width="1012" height="46" rx="8" fill="#f8fafc" stroke="#d9e2ec"/>
+    <rect x="112" y="141" width="52" height="20" rx="4" fill="#e2e8f0"/>
+    <text x="128" y="156" fill="#334155" font-family="Consolas, monospace" font-size="13" font-weight="700">F4</text>
+    <line x1="184" y1="128" x2="184" y2="174" stroke="#d9e2ec"/>
+    <text x="204" y="157" fill="#0f172a" font-family="Consolas, monospace" font-size="15">=INDEX($C$2:$C$5,MATCH(1,($A$2:$A$5=$F$2)*($B$2:$B$5=$F$3),0))</text>
+
+    <g transform="translate(94 196)">
+      <rect x="0" y="0" width="1012" height="420" fill="#ffffff" stroke="#cbd5e1"/>
+
+      <rect x="0" y="0" width="54" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="54" y="0" width="150" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="204" y="0" width="150" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="354" y="0" width="150" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="504" y="0" width="150" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="654" y="0" width="150" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <rect x="804" y="0" width="208" height="34" fill="#f1f5f9" stroke="#cbd5e1"/>
+
+      <text x="117" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">A</text>
+      <text x="267" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">B</text>
+      <text x="417" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">C</text>
+      <text x="567" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">D</text>
+      <text x="717" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">E</text>
+      <text x="905" y="22" fill="#475569" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700">F</text>
+
+      <g font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#64748b">
+        <text x="22" y="66">1</text>
+        <text x="22" y="106">2</text>
+        <text x="22" y="146">3</text>
+        <text x="22" y="186">4</text>
+        <text x="22" y="226">5</text>
+        <text x="22" y="266">6</text>
+      </g>
+
+      <g stroke="#e2e8f0" fill="#ffffff">
+        <rect x="54" y="34" width="150" height="40"/>
+        <rect x="204" y="34" width="150" height="40"/>
+        <rect x="354" y="34" width="150" height="40"/>
+        <rect x="54" y="74" width="150" height="40"/>
+        <rect x="204" y="74" width="150" height="40"/>
+        <rect x="354" y="74" width="150" height="40"/>
+        <rect x="54" y="114" width="150" height="40"/>
+        <rect x="204" y="114" width="150" height="40"/>
+        <rect x="354" y="114" width="150" height="40"/>
+        <rect x="54" y="154" width="150" height="40"/>
+        <rect x="204" y="154" width="150" height="40"/>
+        <rect x="354" y="154" width="150" height="40"/>
+        <rect x="54" y="194" width="150" height="40"/>
+        <rect x="204" y="194" width="150" height="40"/>
+        <rect x="354" y="194" width="150" height="40"/>
+      </g>
+
+      <rect x="54" y="34" width="450" height="40" fill="#dcfce7" stroke="#bbf7d0"/>
+      <g font-family="Segoe UI, Arial, sans-serif" font-size="15">
+        <text x="82" y="59" fill="#166534" font-weight="700">부서</text>
+        <text x="232" y="59" fill="#166534" font-weight="700">이름</text>
+        <text x="382" y="59" fill="#166534" font-weight="700">금액</text>
+        <text x="82" y="99" fill="#0f172a">영업</text>
+        <text x="232" y="99" fill="#0f172a">김민수</text>
+        <text x="382" y="99" fill="#0f172a">120</text>
+        <text x="82" y="139" fill="#0f172a">기획</text>
+        <text x="232" y="139" fill="#0f172a">이서연</text>
+        <text x="382" y="139" fill="#0f172a">180</text>
+        <text x="82" y="179" fill="#0f172a">영업</text>
+        <text x="232" y="179" fill="#0f172a">이서연</text>
+        <text x="382" y="179" fill="#0f172a" font-weight="700">210</text>
+        <text x="82" y="219" fill="#0f172a">개발</text>
+        <text x="232" y="219" fill="#0f172a">박준호</text>
+        <text x="382" y="219" fill="#0f172a">250</text>
+      </g>
+
+      <g stroke="#e2e8f0" fill="#ffffff">
+        <rect x="654" y="74" width="150" height="40"/>
+        <rect x="804" y="74" width="208" height="40"/>
+        <rect x="654" y="114" width="150" height="40"/>
+        <rect x="804" y="114" width="208" height="40"/>
+        <rect x="654" y="154" width="150" height="40"/>
+        <rect x="804" y="154" width="208" height="40"/>
+      </g>
+      <rect x="654" y="34" width="358" height="40" fill="#e0f2fe" stroke="#bae6fd"/>
+      <text x="682" y="59" fill="#075985" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">조회 조건</text>
+      <text x="682" y="99" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15">부서</text>
+      <text x="832" y="99" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15">영업</text>
+      <text x="682" y="139" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15">이름</text>
+      <text x="832" y="139" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15">이서연</text>
+      <text x="682" y="179" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15">결과</text>
+      <text x="832" y="179" fill="#0f172a" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="800">210</text>
+      <rect x="804" y="154" width="208" height="40" fill="none" stroke="#22c55e" stroke-width="3"/>
+
+      <path d="M504 174 C572 174 594 174 654 174" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="8 7"/>
+      <circle cx="504" cy="174" r="5" fill="#22c55e"/>
+      <circle cx="654" cy="174" r="5" fill="#22c55e"/>
+
+      <text x="54" y="300" fill="#334155" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">핵심 구조</text>
+      <text x="54" y="332" fill="#475569" font-family="Consolas, monospace" font-size="16">MATCH(1, (부서범위=부서) * (이름범위=이름), 0)</text>
+      <text x="54" y="362" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="15">두 조건이 모두 맞는 행만 1이 되고, INDEX가 같은 위치의 금액을 가져옵니다.</text>
+    </g>
+  </g>
+</svg>
