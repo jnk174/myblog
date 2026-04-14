@@ -24,11 +24,16 @@
   - Markdown 형식을 기본으로 하되, 중앙 정렬이 필요한 경우 HTML `<div>`를 사용합니다.
   - 가로 너비는 콘텐츠에 따라 `400`~`600` 사이로 적절히 조절합니다.
 
-## 4. 메타데이터 (Frontmatter) 설정
-모든 마크다운 파일 상단에 아래 항목을 반드시 포함합니다.
+## 4. 메타데이터 (Frontmatter) 설정 및 카테고리 (Category)
+모든 마크다운 파일 상단에 아래 항목을 반드시 포함하며, 정해진 리스트 내에서 선택합니다.
 - `title`: 제목 규칙 준수
 - `date`: YYYY-MM-DD 형식
-- `category`: Book Review, Investment, Development 등 적절한 카테고리
+- **`category`**: 아래의 리스트 중 하나를 선택하여 사용합니다 (대소문자 엄수).
+  - `Investment`: 재테크, 자산배분, 금융 정보
+  - `Book Review`: 도서 리뷰 및 요약
+  - `Development`: 프론트엔드, 알고리즘, 일반 기술 팁
+  - `DevOps`: 배포, 인프라, 백엔드 관련
+  - `Education`: 자녀 교육, 학습 일지
 - `tags`: 태그 규칙 준수
 - `excerpt`: 포스트 내용을 요약한 한 줄 설명
 
