@@ -32,8 +32,8 @@ const categoryStyles: Record<string, { label: string; dot: string; badge: string
   },
   자동화: {
     label: "자동화",
-    dot: "bg-teal-500",
-    badge: "bg-teal-50 text-teal-800 ring-teal-200 dark:bg-teal-950/40 dark:text-teal-200 dark:ring-teal-800/60",
+    dot: "bg-rose-500",
+    badge: "bg-rose-50 text-rose-800 ring-rose-200 dark:bg-rose-950/40 dark:text-rose-200 dark:ring-rose-800/60",
   },
 };
 

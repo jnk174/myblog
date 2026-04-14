@@ -48,7 +48,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                     독서: "bg-amber-600",
                     교육: "bg-emerald-600",
                     코딩: "bg-violet-600",
-                    자동화: "bg-teal-600",
+                    자동화: "bg-rose-600",
                     Default: "bg-slate-400",
                   };
                   return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
@@ -67,7 +67,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                       독서: "bg-amber-600",
                       교육: "bg-emerald-600",
                       코딩: "bg-violet-600",
-                      자동화: "bg-teal-600",
+                      자동화: "bg-rose-600",
                       Default: "bg-slate-400",
                     };
                     return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;

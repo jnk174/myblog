@@ -33,7 +33,7 @@ const topics = [
     title: "자동화",
     desc: "엑셀 함수와 반복 업무를 줄이는 기록",
     href: "/blog?search=자동화",
-    color: "bg-teal-600",
+    color: "bg-rose-600",
     icon: "⚙️"
   }
 ];
