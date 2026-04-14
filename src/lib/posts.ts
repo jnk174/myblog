@@ -27,6 +27,7 @@ export type PostData = {
   date: string;
   category?: string;
   tags?: string[];
+  thumbnail?: string;
   contentHtml?: string;
   excerpt?: string;
 };

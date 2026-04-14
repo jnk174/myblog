@@ -1,54 +1,73 @@
 import Link from "next/link";
-import { getSortedPostsData } from "@/lib/posts";
+import { getSortedPostsData, type PostData } from "@/lib/posts";
 import VisitorCounter from "@/components/VisitorCounter";
 import GuestBook from "@/components/GuestBook";
+import PostCard from "@/components/PostCard";
 
-import InfiniteScrollPosts from "@/components/InfiniteScrollPosts";
+// New Home Components
+import HeroSection from "@/components/home/HeroSection";
+import FeaturedPost from "@/components/home/FeaturedPost";
+import StartHere from "@/components/home/StartHere";
+import TopicGateway from "@/components/home/TopicGateway";
+import ProfileMini from "@/components/home/ProfileMini";
 
 export default function Home() {
   const allPosts = getSortedPostsData();
 
+  // Manual Curation: Slugs are defined in lib/posts.ts (date prefixes removed)
+  const featuredPost = allPosts.find(p => p.slug.join("/") === "2026-04/stolen-focus-review") || allPosts[0];
+  
+  const startHereSlugs = [
+    "2026-04/tdf-deep-dive",
+    "2026-04/stolen-focus-review",
+    "2026-04/son-math-mock-exam"
+  ];
+  const startHerePosts = allPosts.filter(p => startHereSlugs.includes(p.slug.join("/")));
+  
+  const latestPosts = allPosts.slice(0, 6);
+
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24 lg:py-32">
-      <section className="flex flex-col items-center justify-center space-y-4 text-center">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-            Welcome to Gill&apos;s Log
-          </h1>
-          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            배우고, 기록하고, 성장하는 것을 좋아하는 사람의 학습 일지입니다.
-          </p>
-        </div>
-        <div className="space-x-4">
-          <Link
-            href="/blog"
-            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-          >
-            Read the Blog
-          </Link>
-          <Link
-            href="/about"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-          >
-            About Me
-          </Link>
+    <div className="flex flex-col min-h-screen">
+      {/* 1. Identity & Hero */}
+      <HeroSection />
+
+      {/* 2. Featured Post */}
+      <FeaturedPost post={featuredPost} />
+
+      {/* 3. Start Here (Curated) */}
+      {startHerePosts.length > 0 && <StartHere posts={startHerePosts} />}
+
+      {/* 4. Topic Gateway */}
+      <TopicGateway />
+
+      {/* 5. Latest Posts Grid */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-2xl font-bold tracking-tight uppercase">Recent Archive</h2>
+            <Link href="/blog" className="text-sm font-medium hover:underline">
+              모든 글 보기 ({allPosts.length})
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {latestPosts.map((post) => (
+              <PostCard key={post.slug.join("/")} post={post} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="mt-16 md:mt-24 max-w-5xl mx-auto mb-16">
-        <div className="flex items-center justify-between mb-8 pb-4 border-b">
-          <h2 className="text-2xl font-bold uppercase tracking-widest">The Archive</h2>
-          <span className="text-sm font-medium text-muted-foreground">{allPosts.length} Posts</span>
+      {/* 6. Human Touch & Footer Area */}
+      <ProfileMini />
+      
+      <section className="py-20 border-t">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <GuestBook />
+          <div className="mt-12 pt-8 border-t text-center">
+            <VisitorCounter />
+          </div>
         </div>
-        <InfiniteScrollPosts allPosts={allPosts} initialBatchSize={6} />
-      </section>
-
-      <section className="mt-24 mb-16">
-        <GuestBook />
-      </section>
-
-      <section className="mt-12">
-        <VisitorCounter />
       </section>
     </div>
   );

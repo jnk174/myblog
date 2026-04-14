@@ -58,6 +58,13 @@
   --shadow-2xl: 2px 2px 4px 0px hsl(255 86% 66% / 0.50);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+
+  /* Category Colors */
+  --cat-investment: #1e40af;
+  --cat-education: #2d6a4f;
+  --cat-book: #d97706;
+  --cat-dev: #4338ca;
+  --cat-growth: #4b5563;
 }
 
 .dark {
