@@ -20,6 +20,14 @@ function stripMarkdown(text: string): string {
     .replace(/#/g, ''); // headers
 }
 
+function extractFirstImage(content: string): string | undefined {
+  const markdownImage = content.match(/!\[[^\]]*]\(([^)]+)\)/);
+  if (markdownImage?.[1]) return markdownImage[1];
+
+  const htmlImage = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+  return htmlImage?.[1];
+}
+
 export type PostData = {
   slug: string[]; // URL용 슬러그 (접두사 제거됨)
   fullSlug: string[]; // 실제 파일 경로용 슬러그 (접두사 포함)
@@ -74,6 +82,7 @@ export function getSortedPostsData(): PostData[] {
       date: string;
       category?: string;
       tags?: string[];
+      thumbnail?: string;
       excerpt?: string;
     };
 
@@ -81,6 +90,7 @@ export function getSortedPostsData(): PostData[] {
       slug,
       fullSlug: pathParts,
       ...data,
+      thumbnail: data.thumbnail || extractFirstImage(matterResult.content),
       title: stripMarkdown(data.title),
       excerpt: data.excerpt ? stripMarkdown(data.excerpt) : '',
     };

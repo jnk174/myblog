@@ -3,6 +3,7 @@ title: "엑셀 INDEX MATCH 다중 조건 공식 정리: VLOOKUP 대신 자주 �
 date: "2026-04-14"
 category: "자동화"
 tags: ["Excel", "INDEXMATCH", "다중조건"]
+thumbnail: "/images/blog/excel_index_match_two_criteria_mockup.svg"
 excerpt: "VLOOKUP보다 INDEX MATCH를 더 자주 쓰지만, 조건이 두 개로 늘어나면 공식 구조를 자꾸 잊어버립니다. 나중에 다시 헤매지 않기 위해 단일 조건과 다중 조건 조회 공식을 함께 정리해 둡니다."
 ---
 
