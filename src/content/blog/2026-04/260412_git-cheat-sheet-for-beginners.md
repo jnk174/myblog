@@ -2,7 +2,7 @@
 title: "Git 핵심 명령어 완벽 정리: 실수 없는 버전 관리를 위한 나만의 가이드"
 date: "2026-04-12"
 category: "Development"
-tags: ["Git", "GitHub", "명령어", "자기관리"]
+tags: ["Git", "GitHub", "버전관리"]
 excerpt: "Git의 기초 명령어들을 자꾸 잊어버리는 저 스스로를 위해, 가장 자주 사용하는 핵심 기능들을 이곳에 정리해 둡니다."
 ---
 
