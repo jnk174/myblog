@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSortedPostsData, type PostData } from "@/lib/posts";
+import { getSortedPostsData } from "@/lib/posts";
 import VisitorCounter from "@/components/VisitorCounter";
 import GuestBook from "@/components/GuestBook";
 import PostCard from "@/components/PostCard";

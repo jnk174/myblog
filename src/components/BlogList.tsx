@@ -78,7 +78,7 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                               Investment: "bg-blue-600",
                               "Book Review": "bg-amber-600",
                               Education: "bg-emerald-600",
-                              "Life & Growth": "bg-indigo-600",
+                              "Coding & Automation": "bg-indigo-600",
                               Default: "bg-slate-400",
                             };
                             const color = categoryColors[post.category as keyof typeof categoryColors] || categoryColors.Default;

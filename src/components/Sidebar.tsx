@@ -59,7 +59,7 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
               Investment: "bg-blue-500",
               "Book Review": "bg-amber-500",
               Education: "bg-emerald-500",
-              "Life & Growth": "bg-indigo-500",
+              "Coding & Automation": "bg-indigo-500",
               Default: "bg-slate-400",
             };
             const dotColor = categoryColors[cat.name as keyof typeof categoryColors] || categoryColors.Default;

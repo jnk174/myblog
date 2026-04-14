@@ -3,6 +3,21 @@
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 
+type SiteStat = {
+  date: string
+  pv: number
+  uv: number
+}
+
+function StatItem({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="flex items-center space-x-2">
+      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</span>
+      <span className="font-mono text-sm font-bold text-primary">{value.toLocaleString()}</span>
+    </div>
+  )
+}
+
 export default function VisitorCounter() {
   const [stats, setStats] = useState({
     total: 0,
@@ -27,7 +42,7 @@ export default function VisitorCounter() {
         let todayUv = 0
         let yesterdayUv = 0
 
-        allStats.forEach((s) => {
+        ;(allStats as SiteStat[]).forEach((s) => {
           totalUv += s.uv
           totalPv += s.pv
           if (s.date === todayStr) todayUv = s.uv
@@ -45,13 +60,6 @@ export default function VisitorCounter() {
 
     fetchStats()
   }, [])
-
-  const StatItem = ({ label, value }: { label: string; value: number }) => (
-    <div className="flex items-center space-x-2">
-      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{label}</span>
-      <span className="font-mono text-sm font-bold text-primary">{value.toLocaleString()}</span>
-    </div>
-  )
 
   return (
     <div className="flex w-full items-center justify-center border-y bg-card/50 py-3 backdrop-blur-sm">

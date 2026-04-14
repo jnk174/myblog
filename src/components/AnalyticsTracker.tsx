@@ -65,7 +65,7 @@ export default function AnalyticsTracker() {
             } else {
               await supabase.from("site_referrers").update({ count: refData.count + 1 }).eq("id", refData.id)
             }
-          } catch (e) {
+          } catch {
             // 테이블이 없으면 조용히 무시
           }
         }

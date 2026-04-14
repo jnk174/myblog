@@ -1,7 +1,7 @@
 ---
 title: "나만의 첫 번째 배포: Vercel vs Netlify (1인 블로거 & 프로젝트용 가이드)"
 date: "2026-04-06"
-category: "DevOps"
+category: "Coding & Automation"
 tags: ["Vercel", "Netlify", "배포플랫폼"]
 excerpt: "내 소중한 첫 테크 블로그나 사이드 프로젝트를 어디에 올릴까 고민 중이신가요? 무료 티어(Hobby) 혜택부터 폼 처리, 데이터베이스까지 — 1인 개발자에게 가장 친절한 배포 플랫폼을 비교 분석합니다."
 ---

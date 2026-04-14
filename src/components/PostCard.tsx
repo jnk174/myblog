@@ -10,7 +10,7 @@ interface PostCardProps {
 const categoryStyles: Record<string, string> = {
   Investment: "border-l-blue-500 bg-blue-50/30 dark:bg-blue-900/10",
   "Book Review": "border-l-amber-500 bg-amber-50/30 dark:bg-amber-900/10",
-  Development: "border-l-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10",
+  "Coding & Automation": "border-l-indigo-500 bg-indigo-50/30 dark:bg-indigo-900/10",
   Education: "border-l-emerald-500 bg-emerald-50/30 dark:bg-emerald-900/10",
   Default: "border-l-slate-400 bg-slate-50/30 dark:bg-slate-900/10",
 };

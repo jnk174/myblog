@@ -1,22 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Search, X } from "lucide-react"
 import { Input } from "./ui/input"
-import { Button } from "./ui/button"
 
 export default function SearchBar() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get("search") || "")
-
-  useEffect(() => {
-    setQuery(searchParams.get("search") || "")
-  }, [searchParams])
+  const currentSearch = searchParams.get("search") || ""
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [hasValue, setHasValue] = useState(Boolean(currentSearch))
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    const query = inputRef.current?.value || ""
     if (query.trim()) {
       router.push(`/blog?search=${encodeURIComponent(query.trim())}`)
     } else {
@@ -25,7 +23,8 @@ export default function SearchBar() {
   }
 
   const clearSearch = () => {
-    setQuery("")
+    if (inputRef.current) inputRef.current.value = ""
+    setHasValue(false)
     router.push("/blog")
   }
 
@@ -34,13 +33,15 @@ export default function SearchBar() {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
         <Input
+          key={currentSearch}
+          ref={inputRef}
           type="text"
           placeholder="Search posts..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          defaultValue={currentSearch}
+          onChange={(e) => setHasValue(Boolean(e.target.value))}
           className="pl-10 pr-10 h-11 rounded-xl border-primary/10 bg-primary/5 focus-visible:ring-primary/20 font-medium"
         />
-        {query && (
+        {hasValue && (
           <button
             type="button"
             onClick={clearSearch}

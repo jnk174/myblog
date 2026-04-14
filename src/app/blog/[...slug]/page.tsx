@@ -1,7 +1,7 @@
 import { getPostData, getAllPostSlugs, getAllCategories, getAllTags, getSortedPostsData } from "@/lib/posts";
 import { format } from "date-fns";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Tag, ChevronLeft } from "lucide-react";
+import { Calendar, Tag, ChevronLeft } from "lucide-react";
 import CommentSection from "@/components/CommentSection";
 import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
@@ -47,7 +47,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                     Investment: "bg-blue-600",
                     "Book Review": "bg-amber-600",
                     Education: "bg-emerald-600",
-                    "Life & Growth": "bg-indigo-600",
+                    "Coding & Automation": "bg-indigo-600",
                     Default: "bg-slate-400",
                   };
                   return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
@@ -65,7 +65,7 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                       Investment: "bg-blue-600",
                       "Book Review": "bg-amber-600",
                       Education: "bg-emerald-600",
-                      "Life & Growth": "bg-indigo-600",
+                      "Coding & Automation": "bg-indigo-600",
                       Default: "bg-slate-400",
                     };
                     return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;

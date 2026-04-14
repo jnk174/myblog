@@ -1,7 +1,7 @@
 ---
 title: "Supabase와 Next.js: 완벽한 하이브리드 소셜 로그인 시스템 구축"
 date: "2026-04-05"
-category: "DevOps"
+category: "Coding & Automation"
 tags: ["Supabase", "Next.js", "소셜로그인"]
 excerpt: "정적 블로그의 한계를 넘어, Supabase를 활용하여 Google, GitHub, Kakao 소셜 로그인을 통합하고 사용자 경험을 극대화하는 방법을 소개합니다."
 ---

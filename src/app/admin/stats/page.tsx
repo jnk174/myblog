@@ -20,12 +20,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, Users, MousePointer2, Share2, ShieldCheck, Loader2 } from "lucide-react"
 import Link from "next/link"
 
+type SiteStat = {
+  date: string
+  pv: number
+  uv: number
+}
+
+type SiteReferrer = {
+  source: string
+  count: number
+}
+
+type ReferrerChartData = {
+  name: string
+  value: number
+}
+
 export default function AdminStatsPage() {
   const router = useRouter()
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [statsData, setStatsData] = useState<any[]>([])
-  const [referrerData, setReferrerData] = useState<any[]>([])
+  const [statsData, setStatsData] = useState<SiteStat[]>([])
+  const [referrerData, setReferrerData] = useState<ReferrerChartData[]>([])
   const [summary, setSummary] = useState({
     totalPv: 0,
     totalUv: 0,
@@ -53,13 +69,14 @@ export default function AdminStatsPage() {
           .order("date", { ascending: true })
         
         if (stats) {
-          setStatsData(stats)
-          const totalPv = stats.reduce((acc, curr) => acc + curr.pv, 0)
-          const totalUv = stats.reduce((acc, curr) => acc + curr.uv, 0)
+          const typedStats = stats as SiteStat[]
+          setStatsData(typedStats)
+          const totalPv = typedStats.reduce((acc, curr) => acc + curr.pv, 0)
+          const totalUv = typedStats.reduce((acc, curr) => acc + curr.uv, 0)
           setSummary({
             totalPv,
             totalUv,
-            avgPv: Math.round(totalPv / Math.max(stats.length, 1))
+            avgPv: Math.round(totalPv / Math.max(typedStats.length, 1))
           })
         }
 
@@ -71,7 +88,7 @@ export default function AdminStatsPage() {
         
         if (refs) {
           // Group by source
-          const grouped = refs.reduce((acc: any, curr) => {
+          const grouped = (refs as SiteReferrer[]).reduce<Record<string, number>>((acc, curr) => {
             if (!acc[curr.source]) acc[curr.source] = 0
             acc[curr.source] += curr.count
             return acc

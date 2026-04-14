@@ -1,7 +1,7 @@
 ---
 title: "Next.js 정적 블로그: Vercel 무중단 배포 완벽 가이드"
 date: "2026-04-04"
-category: "DevOps"
+category: "Coding & Automation"
 tags: ["Vercel", "Next.js", "무중단배포"]
 excerpt: "GitHub Actions 없이도 완벽한 CI/CD를 구축하는 방법. Next.js 정적 사이트를 Vercel을 통해 전 세계에 가장 빠르게 배포하는 기술적 스텝을 정리합니다."
 ---
