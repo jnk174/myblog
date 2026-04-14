@@ -140,7 +140,7 @@ export function getAllCategories(): { name: string; count: number }[] {
 
   // 개발 관련 카테고리 키워드 (이 키워드가 포함되면 리스트 맨 뒤로 보냄)
   const devKeywords = [
-    "코딩", "Next.js", "Vercel", "Supabase", "React", "Programming",
+    "코딩", "자동화", "Next.js", "Vercel", "Supabase", "React", "Programming",
     "Backend", "Frontend", "Cloud", "Infrastructure", "Deployment", "Automation"
   ];
 

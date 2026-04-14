@@ -28,6 +28,13 @@ const topics = [
     href: "/blog?search=코딩",
     color: "bg-violet-600",
     icon: "💻"
+  },
+  {
+    title: "자동화",
+    desc: "엑셀 함수와 반복 업무를 줄이는 기록",
+    href: "/blog?search=자동화",
+    color: "bg-teal-600",
+    icon: "⚙️"
   }
 ];
 
@@ -42,7 +49,7 @@ export default function TopicGateway() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {topics.map((topic) => (
             <Link 
               key={topic.title} 

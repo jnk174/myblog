@@ -79,6 +79,7 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                               독서: "border-amber-200 bg-amber-100 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/60 dark:text-amber-200",
                               교육: "border-emerald-200 bg-emerald-100 text-emerald-800 dark:border-emerald-800/60 dark:bg-emerald-950/60 dark:text-emerald-200",
                               코딩: "border-violet-200 bg-violet-100 text-violet-800 dark:border-violet-800/60 dark:bg-violet-950/60 dark:text-violet-200",
+                              자동화: "border-teal-200 bg-teal-100 text-teal-800 dark:border-teal-800/60 dark:bg-teal-950/60 dark:text-teal-200",
                               Default: "border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200",
                             };
                             const color = categoryBadgeColors[post.category as keyof typeof categoryBadgeColors] || categoryBadgeColors.Default;

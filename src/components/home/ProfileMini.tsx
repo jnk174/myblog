@@ -30,6 +30,11 @@ const categoryStyles: Record<string, { label: string; dot: string; badge: string
     dot: "bg-violet-500",
     badge: "bg-violet-50 text-violet-800 ring-violet-200 dark:bg-violet-950/40 dark:text-violet-200 dark:ring-violet-800/60",
   },
+  자동화: {
+    label: "자동화",
+    dot: "bg-teal-500",
+    badge: "bg-teal-50 text-teal-800 ring-teal-200 dark:bg-teal-950/40 dark:text-teal-200 dark:ring-teal-800/60",
+  },
 };
 
 export default function ProfileMini({ categories }: ProfileMiniProps) {

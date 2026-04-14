@@ -76,6 +76,11 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
                 active: "bg-violet-600 text-white shadow-lg shadow-violet-600/20",
                 count: "bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200",
               },
+              자동화: {
+                dot: "bg-teal-500",
+                active: "bg-teal-600 text-white shadow-lg shadow-teal-600/20",
+                count: "bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-200",
+              },
               Default: {
                 dot: "bg-slate-400",
                 active: "bg-slate-700 text-white shadow-lg shadow-slate-700/20",
