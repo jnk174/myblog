@@ -2,30 +2,30 @@ import Link from "next/link";
 
 const topics = [
   {
-    title: "투자와 자산배분",
-    desc: "TDF, ETF 전략 및 자본주의 공부 기록",
+    title: "자산 투자",
+    desc: "TDF, ETF, 자산배분을 공부하며 남긴 기록",
     href: "/blog?search=Investment",
     color: "bg-blue-600",
     icon: "📈"
   },
   {
     title: "아이의 공부 기록",
-    desc: "혼공 실전 기록과 교육에 대한 고민",
+    desc: "집에서 함께 공부하며 알게 된 것들",
     href: "/blog?search=Education",
     color: "bg-emerald-600",
     icon: "🌱"
   },
   {
     title: "읽고 남은 생각",
-    desc: "삶을 바꾸는 책 한 권의 메시지 정리",
+    desc: "책을 읽고 오래 남은 문장과 질문들",
     href: "/blog?search=Review",
     color: "bg-amber-600",
     icon: "📚"
   },
   {
-    title: "개발 노트",
-    desc: "시행착오를 통해 배운 기술적 배움들",
-    href: "/blog?search=Development",
+    title: "코딩과 자동화",
+    desc: "직접 만들고 고치며 배운 개발 기록",
+    href: "/blog?search=Automation",
     color: "bg-indigo-600",
     icon: "💻"
   }

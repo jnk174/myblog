@@ -13,23 +13,22 @@ export default function ProfileMini() {
           
           <div className="space-y-6 text-center md:text-left flex-1">
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold">기록하는 사람, Gill</h2>
+              <h2 className="text-2xl font-bold">안녕하세요, Gill입니다.</h2>
               <p className="text-muted-foreground leading-relaxed">
-                금융 투자(TDF, ETF), 자녀 교육의 여정, 그리고 삶의 기록과 배움을 <br className="hidden md:block" />
-                데이터와 정직한 말로 아카이빙합니다. 시행착오를 숨기지 않고 <br className="hidden md:block" />
-                그 과정에서 얻은 인사이트를 나누는 것을 즐깁니다.
+                투자와 공부, 책과 코딩 사이에서 배운 것들을 기록합니다. <br className="hidden md:block" />
+                잘 아는 사람의 결론보다, 배워가는 사람의 과정을 남기고 싶습니다.
               </p>
             </div>
             
             <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-2">
               <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-blue-500" /> Investment
+                <span className="w-2 h-2 rounded-full bg-blue-500" /> 자산 투자
               </div>
               <div className="flex items-center gap-2 text-sm font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" /> Education
               </div>
               <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-indigo-500" /> Life & Growth
+                <span className="w-2 h-2 rounded-full bg-indigo-500" /> Coding & Automation
               </div>
             </div>
 
