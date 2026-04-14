@@ -56,22 +56,22 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
           </Link>
           {categories.map((cat) => {
             const categoryColors: Record<string, { dot: string; active: string; count: string }> = {
-              Investment: {
+              투자: {
                 dot: "bg-sky-500",
                 active: "bg-sky-600 text-white shadow-lg shadow-sky-600/20",
                 count: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200",
               },
-              "Book Review": {
+              독서: {
                 dot: "bg-amber-500",
                 active: "bg-amber-600 text-white shadow-lg shadow-amber-600/20",
                 count: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
               },
-              Education: {
+              교육: {
                 dot: "bg-emerald-500",
                 active: "bg-emerald-600 text-white shadow-lg shadow-emerald-600/20",
                 count: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
               },
-              "Coding & Automation": {
+              코딩: {
                 dot: "bg-violet-500",
                 active: "bg-violet-600 text-white shadow-lg shadow-violet-600/20",
                 count: "bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200",

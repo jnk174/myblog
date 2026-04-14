@@ -2,31 +2,31 @@ import Link from "next/link";
 
 const topics = [
   {
-    title: "자산 투자",
+    title: "투자",
     desc: "TDF, ETF, 자산배분을 공부하며 남긴 기록",
-    href: "/blog?search=Investment",
-    color: "bg-blue-600",
+    href: "/blog?search=투자",
+    color: "bg-sky-600",
     icon: "📈"
   },
   {
-    title: "아이의 공부 기록",
+    title: "교육",
     desc: "집에서 함께 공부하며 알게 된 것들",
-    href: "/blog?search=Education",
+    href: "/blog?search=교육",
     color: "bg-emerald-600",
     icon: "🌱"
   },
   {
-    title: "읽고 남은 생각",
+    title: "독서",
     desc: "책을 읽고 오래 남은 문장과 질문들",
-    href: "/blog?search=Review",
+    href: "/blog?search=독서",
     color: "bg-amber-600",
     icon: "📚"
   },
   {
-    title: "코딩과 자동화",
+    title: "코딩",
     desc: "직접 만들고 고치며 배운 개발 기록",
-    href: "/blog?search=Automation",
-    color: "bg-indigo-600",
+    href: "/blog?search=코딩",
+    color: "bg-violet-600",
     icon: "💻"
   }
 ];

@@ -1,7 +1,7 @@
 ---
 title: "Next.js 블로그에 Vercel Analytics 도입하기: 실시간 트래픽 분석의 시작"
 date: "2026-04-06"
-category: "Coding & Automation"
+category: "코딩"
 tags: ["Vercel", "Next.js", "데이터분석"]
 excerpt: "단 한 줄의 코드로 블로그 방문자 데이터를 분석하고 성능지표를 모니터링하는 방법을 소개합니다. 구글 애널리틱스보다 가벼운 Vercel Analytics의 강력한 기능을 지금 경험해 보세요."
 ---

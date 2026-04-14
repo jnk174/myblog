@@ -10,23 +10,23 @@ type ProfileMiniProps = {
 };
 
 const categoryStyles: Record<string, { label: string; dot: string; badge: string }> = {
-  Investment: {
-    label: "자산 투자",
+  투자: {
+    label: "투자",
     dot: "bg-sky-500",
     badge: "bg-sky-50 text-sky-800 ring-sky-200 dark:bg-sky-950/40 dark:text-sky-200 dark:ring-sky-800/60",
   },
-  "Book Review": {
-    label: "읽고 남은 생각",
+  독서: {
+    label: "독서",
     dot: "bg-amber-500",
     badge: "bg-amber-50 text-amber-900 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-200 dark:ring-amber-800/60",
   },
-  Education: {
-    label: "아이의 공부 기록",
+  교육: {
+    label: "교육",
     dot: "bg-emerald-500",
     badge: "bg-emerald-50 text-emerald-800 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-200 dark:ring-emerald-800/60",
   },
-  "Coding & Automation": {
-    label: "코딩과 자동화",
+  코딩: {
+    label: "코딩",
     dot: "bg-violet-500",
     badge: "bg-violet-50 text-violet-800 ring-violet-200 dark:bg-violet-950/40 dark:text-violet-200 dark:ring-violet-800/60",
   },

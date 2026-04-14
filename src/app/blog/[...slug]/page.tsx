@@ -44,10 +44,10 @@ export default async function PostPage(props: { params: Promise<Params> }) {
               {postData.category && (
                 <div className={`h-1 w-20 rounded-full mb-8 ${(() => {
                   const categoryColors: Record<string, string> = {
-                    Investment: "bg-sky-600",
-                    "Book Review": "bg-amber-600",
-                    Education: "bg-emerald-600",
-                    "Coding & Automation": "bg-violet-600",
+                    투자: "bg-sky-600",
+                    독서: "bg-amber-600",
+                    교육: "bg-emerald-600",
+                    코딩: "bg-violet-600",
                     Default: "bg-slate-400",
                   };
                   return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
@@ -62,10 +62,10 @@ export default async function PostPage(props: { params: Promise<Params> }) {
                 {postData.category && (
                   <span className={`text-[10px] font-black uppercase tracking-widest text-white px-3 py-1.5 rounded-full ${(() => {
                     const categoryColors: Record<string, string> = {
-                      Investment: "bg-sky-600",
-                      "Book Review": "bg-amber-600",
-                      Education: "bg-emerald-600",
-                      "Coding & Automation": "bg-violet-600",
+                      투자: "bg-sky-600",
+                      독서: "bg-amber-600",
+                      교육: "bg-emerald-600",
+                      코딩: "bg-violet-600",
                       Default: "bg-slate-400",
                     };
                     return categoryColors[postData.category as keyof typeof categoryColors] || categoryColors.Default;
