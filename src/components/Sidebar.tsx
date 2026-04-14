@@ -55,29 +55,50 @@ export default function Sidebar({ categories, tags, totalPosts }: SidebarProps) 
             <span className="text-[10px] opacity-50 font-black">ALL</span>
           </Link>
           {categories.map((cat) => {
-            const categoryColors: Record<string, string> = {
-              Investment: "bg-blue-500",
-              "Book Review": "bg-amber-500",
-              Education: "bg-emerald-500",
-              "Coding & Automation": "bg-indigo-500",
-              Default: "bg-slate-400",
+            const categoryColors: Record<string, { dot: string; active: string; count: string }> = {
+              Investment: {
+                dot: "bg-sky-500",
+                active: "bg-sky-600 text-white shadow-lg shadow-sky-600/20",
+                count: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-200",
+              },
+              "Book Review": {
+                dot: "bg-amber-500",
+                active: "bg-amber-600 text-white shadow-lg shadow-amber-600/20",
+                count: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
+              },
+              Education: {
+                dot: "bg-emerald-500",
+                active: "bg-emerald-600 text-white shadow-lg shadow-emerald-600/20",
+                count: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
+              },
+              "Coding & Automation": {
+                dot: "bg-violet-500",
+                active: "bg-violet-600 text-white shadow-lg shadow-violet-600/20",
+                count: "bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200",
+              },
+              Default: {
+                dot: "bg-slate-400",
+                active: "bg-slate-700 text-white shadow-lg shadow-slate-700/20",
+                count: "bg-slate-100 text-slate-700 dark:bg-slate-900 dark:text-slate-200",
+              },
             };
-            const dotColor = categoryColors[cat.name as keyof typeof categoryColors] || categoryColors.Default;
+            const color = categoryColors[cat.name as keyof typeof categoryColors] || categoryColors.Default;
+            const isActive = activeSearch.toLowerCase() === cat.name.toLowerCase();
             
             return (
               <Link
                 key={cat.name}
                 href={`/blog?search=${encodeURIComponent(cat.name)}`}
                 className={`group flex items-center justify-between px-3 py-2 rounded-xl text-sm font-bold transition-all ${
-                  activeSearch.toLowerCase() === cat.name.toLowerCase()
-                    ? "bg-primary text-white shadow-lg shadow-primary/25"
+                  isActive
+                    ? color.active
                     : "hover:bg-primary/5 text-muted-foreground hover:text-primary"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className={`w-1.5 h-1.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white" : dotColor}`} />
+                  <span className={`w-2 h-2 rounded-full ${isActive ? "bg-white" : color.dot}`} />
                   <span>{cat.name}</span>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${activeSearch.toLowerCase() === cat.name.toLowerCase() ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? "bg-white/20 text-white" : color.count}`}>
                     {cat.count}
                   </span>
                 </div>

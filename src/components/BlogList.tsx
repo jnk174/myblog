@@ -74,21 +74,18 @@ export default function BlogList({ posts, categories, tags }: BlogListProps) {
                       {post.category && (
                         <div className="flex items-center gap-2">
                           {(() => {
-                            const categoryColors: Record<string, string> = {
-                              Investment: "bg-blue-600",
-                              "Book Review": "bg-amber-600",
-                              Education: "bg-emerald-600",
-                              "Coding & Automation": "bg-indigo-600",
-                              Default: "bg-slate-400",
+                            const categoryBadgeColors: Record<string, string> = {
+                              Investment: "border-sky-200 bg-sky-100 text-sky-800 dark:border-sky-800/60 dark:bg-sky-950/60 dark:text-sky-200",
+                              "Book Review": "border-amber-200 bg-amber-100 text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/60 dark:text-amber-200",
+                              Education: "border-emerald-200 bg-emerald-100 text-emerald-800 dark:border-emerald-800/60 dark:bg-emerald-950/60 dark:text-emerald-200",
+                              "Coding & Automation": "border-violet-200 bg-violet-100 text-violet-800 dark:border-violet-800/60 dark:bg-violet-950/60 dark:text-violet-200",
+                              Default: "border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200",
                             };
-                            const color = categoryColors[post.category as keyof typeof categoryColors] || categoryColors.Default;
+                            const color = categoryBadgeColors[post.category as keyof typeof categoryBadgeColors] || categoryBadgeColors.Default;
                             return (
-                              <>
-                                <span className={`w-2 h-2 rounded-full ${color}`} />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-foreground">
-                                  {post.category}
-                                </span>
-                              </>
+                              <span className={`inline-flex rounded-md border px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${color}`}>
+                                {post.category}
+                              </span>
                             );
                           })()}
                         </div>
