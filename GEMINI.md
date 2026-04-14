@@ -35,6 +35,12 @@
     - `Book Review`: 도서 리뷰 및 요약
     - `Coding & Automation`: 취미 코딩, 배포, 인프라, 업무 자동화 기록
     - `Education`: 자녀 교육, 학습 일지
+  - **카테고리 색상 규칙**:
+    - `Investment`: Sky Blue 계열
+    - `Book Review`: Amber 계열
+    - `Education`: Emerald 계열
+    - `Coding & Automation`: Violet 계열
+    - 새 카테고리를 추가할 경우, 글 목록/카드/사이드바/상세 페이지의 색상 매핑도 함께 추가합니다.
 - `tags`: 태그 규칙 준수
 - `excerpt`: 포스트 내용을 요약한 한 줄 설명
 
