@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSortedPostsData } from "@/lib/posts";
+import { getAllCategories, getSortedPostsData } from "@/lib/posts";
 import VisitorCounter from "@/components/VisitorCounter";
 import GuestBook from "@/components/GuestBook";
 import PostCard from "@/components/PostCard";
@@ -13,6 +13,7 @@ import ProfileMini from "@/components/home/ProfileMini";
 
 export default function Home() {
   const allPosts = getSortedPostsData();
+  const categories = getAllCategories();
 
   // Manual Curation: Slugs are defined in lib/posts.ts (date prefixes removed)
   const featuredPost = allPosts.find(p => p.slug.join("/") === "2026-04/stolen-focus-review") || allPosts[0];
@@ -59,7 +60,7 @@ export default function Home() {
       </section>
 
       {/* 6. Human Touch & Footer Area */}
-      <ProfileMini />
+      <ProfileMini categories={categories} />
       
       <section className="py-20 border-t">
         <div className="container mx-auto px-4 max-w-4xl">

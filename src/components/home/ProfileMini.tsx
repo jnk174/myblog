@@ -1,6 +1,38 @@
 import Link from "next/link";
 
-export default function ProfileMini() {
+type Category = {
+  name: string;
+  count: number;
+};
+
+type ProfileMiniProps = {
+  categories: Category[];
+};
+
+const categoryStyles: Record<string, { label: string; dot: string; badge: string }> = {
+  Investment: {
+    label: "자산 투자",
+    dot: "bg-sky-500",
+    badge: "bg-sky-50 text-sky-800 ring-sky-200 dark:bg-sky-950/40 dark:text-sky-200 dark:ring-sky-800/60",
+  },
+  "Book Review": {
+    label: "읽고 남은 생각",
+    dot: "bg-amber-500",
+    badge: "bg-amber-50 text-amber-900 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-200 dark:ring-amber-800/60",
+  },
+  Education: {
+    label: "아이의 공부 기록",
+    dot: "bg-emerald-500",
+    badge: "bg-emerald-50 text-emerald-800 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-200 dark:ring-emerald-800/60",
+  },
+  "Coding & Automation": {
+    label: "코딩과 자동화",
+    dot: "bg-violet-500",
+    badge: "bg-violet-50 text-violet-800 ring-violet-200 dark:bg-violet-950/40 dark:text-violet-200 dark:ring-violet-800/60",
+  },
+};
+
+export default function ProfileMini({ categories }: ProfileMiniProps) {
   return (
     <section className="py-20 border-t bg-card/50">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -20,16 +52,26 @@ export default function ProfileMini() {
               </p>
             </div>
             
-            <div className="flex flex-wrap justify-center md:justify-start gap-6 pt-2">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-blue-500" /> 자산 투자
-              </div>
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Education
-              </div>
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="w-2 h-2 rounded-full bg-indigo-500" /> Coding & Automation
-              </div>
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-2">
+              {categories.map((category) => {
+                const style = categoryStyles[category.name] || {
+                  label: category.name,
+                  dot: "bg-slate-400",
+                  badge: "bg-slate-50 text-slate-700 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-slate-700",
+                };
+
+                return (
+                  <Link
+                    key={category.name}
+                    href={`/blog?search=${encodeURIComponent(category.name)}`}
+                    className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium ring-1 transition-colors hover:opacity-80 ${style.badge}`}
+                  >
+                    <span className={`h-2 w-2 rounded-full ${style.dot}`} />
+                    {style.label}
+                    <span className="text-xs opacity-60">{category.count}</span>
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="pt-4">
