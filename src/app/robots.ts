@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { siteConfig } from '@/config/site'
 
 export const dynamic = 'force-static'
 
@@ -9,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/', // 관리자 페이지는 검색에서 제외
     },
-    sitemap: 'https://gill-log.vercel.app/sitemap.xml',
+    sitemap: `${siteConfig.url}/sitemap.xml`,
   }
 }

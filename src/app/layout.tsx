@@ -9,6 +9,8 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Suspense } from "react";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import Script from "next/script";
+import { siteConfig } from "@/config/site";
+
 
 const fontSans = Roboto({
   subsets: ["latin"],
@@ -27,13 +29,36 @@ const fontMono = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Gill's Log",
-  description: "A beautifully designed Markdown blog built with Next.js and Shadcn UI.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: ["블로그", "코딩", "투자", "독서", "자동화", "Gill's Log"],
+  authors: [{ name: siteConfig.author }],
+  creator: siteConfig.author,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
   verification: {
     google: "Umfsnm7rIMyx0hQEGfwijT7HAjVsovYXHeOhJ99dvUk",
     other: {
-      "naver-site-verification": ["YOUR_NAVER_VERIFICATION_CODE"], // 네이버 서치어드바이저에서 발급받은 코드로 교체하세요
+      "naver-site-verification": "541a00ad0213d2a34addd0ef545dec19e7fcdc56",
     },
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
@@ -44,7 +69,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >

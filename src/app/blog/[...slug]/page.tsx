@@ -5,10 +5,50 @@ import { Calendar, Tag, ChevronLeft } from "lucide-react";
 import CommentSection from "@/components/CommentSection";
 import Sidebar from "@/components/Sidebar";
 import { Suspense } from "react";
+import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
+import Script from "next/script";
 
 type Params = {
   slug: string[];
 };
+
+export async function generateMetadata(props: { params: Promise<Params> }): Promise<Metadata> {
+  const params = await props.params;
+  try {
+    const post = await getPostData(params.slug);
+    const title = `${post.title} | ${siteConfig.name}`;
+    const description = post.excerpt || siteConfig.description;
+    const url = `${siteConfig.url}/blog/${params.slug.join("/")}`;
+    
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        url,
+        publishedTime: post.date,
+        authors: [siteConfig.author],
+        images: post.thumbnail ? [post.thumbnail] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: post.thumbnail ? [post.thumbnail] : [],
+      },
+      alternates: {
+        canonical: url,
+      },
+    };
+  } catch (error) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+}
 
 export async function generateStaticParams() {
   const slugs = getAllPostSlugs();
@@ -25,8 +65,29 @@ export default async function PostPage(props: { params: Promise<Params> }) {
   const categories = getAllCategories();
   const tags = getAllTags();
 
+  // JSON-LD for Article
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": postData.title,
+    "description": postData.excerpt,
+    "image": postData.thumbnail ? [postData.thumbnail] : [],
+    "datePublished": postData.date,
+    "dateModified": postData.date,
+    "author": [{
+      "@type": "Person",
+      "name": siteConfig.author,
+      "url": siteConfig.url
+    }]
+  };
+
   return (
     <div className="container mx-auto px-4 py-12 md:py-24 max-w-7xl">
+      <Script
+        id="post-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 justify-center items-start w-full">
         {/* Main Article Content */}
         <div className="flex-1 max-w-4xl w-full">

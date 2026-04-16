@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next'
 import { getSortedPostsData } from '@/lib/posts'
+import { siteConfig } from '@/config/site'
 
 export const dynamic = 'force-static'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://gill-log.vercel.app'
+  const baseUrl = siteConfig.url
   const posts = getSortedPostsData()
 
   // 블로그 포스트 URL 목록 생성
