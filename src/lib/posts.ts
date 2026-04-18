@@ -181,3 +181,56 @@ export function getAllTags(): { name: string; count: number }[] {
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 }
+
+export type PostContext = {
+  prevPost: Pick<PostData, 'slug' | 'title' | 'category'> | null;
+  nextPost: Pick<PostData, 'slug' | 'title' | 'category'> | null;
+  relatedPosts: Pick<PostData, 'slug' | 'title' | 'category' | 'thumbnail' | 'date' | 'excerpt'>[];
+};
+
+export async function getPostContext(slugArray: string[]): Promise<PostContext> {
+  const posts = getSortedPostsData();
+  const currentIndex = posts.findIndex(p => p.slug.join('/') === slugArray.join('/'));
+  
+  if (currentIndex === -1) {
+    return { prevPost: null, nextPost: null, relatedPosts: [] };
+  }
+
+  const currentPost = posts[currentIndex];
+  // Since posts are sorted descending (newest first):
+  // Previous post (older) is next in array
+  // Next post (newer) is previous in array
+  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null; 
+  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+  // Find related posts (same category, excluding current post)
+  let relatedPosts = posts.filter(
+    p => p.category === currentPost.category && p.slug.join('/') !== currentPost.slug.join('/')
+  );
+  
+  // If not enough related posts, fill with newest posts
+  if (relatedPosts.length < 3) {
+      const otherRecentPosts = posts.filter(
+        p => 
+          p.category !== currentPost.category && // avoid duplicates in related
+          p.slug.join('/') !== currentPost.slug.join('/')
+      );
+      relatedPosts = [...relatedPosts, ...otherRecentPosts];
+  }
+  
+  // Take exactly 3
+  relatedPosts = relatedPosts.slice(0, 3);
+
+  return {
+    prevPost: prevPost ? { slug: prevPost.slug, title: prevPost.title, category: prevPost.category } : null,
+    nextPost: nextPost ? { slug: nextPost.slug, title: nextPost.title, category: nextPost.category } : null,
+    relatedPosts: relatedPosts.map(p => ({
+      slug: p.slug,
+      title: p.title,
+      category: p.category,
+      thumbnail: p.thumbnail,
+      date: p.date,
+      excerpt: p.excerpt,
+    }))
+  };
+}

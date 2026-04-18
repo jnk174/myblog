@@ -1,9 +1,11 @@
-import { getPostData, getAllPostSlugs, getAllCategories, getAllTags, getSortedPostsData } from "@/lib/posts";
+import { getPostData, getAllPostSlugs, getAllCategories, getAllTags, getSortedPostsData, getPostContext } from "@/lib/posts";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Calendar, Tag, ChevronLeft } from "lucide-react";
 import CommentSection from "@/components/CommentSection";
 import Sidebar from "@/components/Sidebar";
+import PostNavigation from "@/components/PostNavigation";
+import RelatedPosts from "@/components/RelatedPosts";
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
@@ -60,6 +62,7 @@ export async function generateStaticParams() {
 export default async function PostPage(props: { params: Promise<Params> }) {
   const params = await props.params;
   const postData = await getPostData(params.slug);
+  const postContext = await getPostContext(params.slug);
   const slugJoined = params.slug.join("/");
 
   const categories = getAllCategories();
@@ -164,7 +167,12 @@ export default async function PostPage(props: { params: Promise<Params> }) {
               dangerouslySetInnerHTML={{ __html: postData.contentHtml || "" }}
             />
 
-            <div className="mt-32 pt-16 border-t border-primary/10">
+            <div className="pt-16 border-t border-primary/10 mt-12">
+              <RelatedPosts posts={postContext.relatedPosts} />
+              <PostNavigation prevPost={postContext.prevPost} nextPost={postContext.nextPost} />
+            </div>
+
+            <div className="mt-16 pt-16 border-t border-primary/10">
               <CommentSection postSlug={slugJoined} />
             </div>
           </article>
