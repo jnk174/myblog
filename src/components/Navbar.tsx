@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 관리자 권한 확인
+    const checkAdmin = () => {
+      const adminStatus = localStorage.getItem("is_blog_admin") === "true";
+      setIsAdmin(adminStatus);
+    };
+
+    checkAdmin();
+    
+    // 스토리지 변경 이벤트 리스너 (선택 사항 - 다른 탭에서의 변경 감지)
+    window.addEventListener("storage", checkAdmin);
+    return () => window.removeEventListener("storage", checkAdmin);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md transition-all duration-300">
@@ -30,6 +45,11 @@ export default function Navbar() {
             <Link href="/blog" className="transition-colors hover:text-primary text-foreground/60">
               Blog
             </Link>
+            {isAdmin && (
+              <Link href="/admin/stats" className="transition-colors text-primary font-black animate-in fade-in slide-in-from-left-2 duration-500">
+                Stats
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex items-center gap-4">
@@ -69,6 +89,15 @@ export default function Navbar() {
             >
               Blog
             </Link>
+            {isAdmin && (
+              <Link
+                href="/admin/stats"
+                onClick={() => setMobileOpen(false)}
+                className="text-sm font-black uppercase tracking-widest py-2 text-primary transition-colors"
+              >
+                Stats
+              </Link>
+            )}
           </div>
         </nav>
       )}

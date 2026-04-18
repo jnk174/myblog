@@ -19,6 +19,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowLeft, Users, MousePointer2, Share2, ShieldCheck, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { fetchSearchKeywords, KeywordData } from "./actions"
 
 type SiteStat = {
   date: string
@@ -31,7 +32,13 @@ type SiteReferrer = {
   count: number
 }
 
-type ReferrerChartData = {
+type PostStat = {
+  slug: string
+  title: string
+  views: number
+}
+
+type ChartData = {
   name: string
   value: number
 }
@@ -41,7 +48,9 @@ export default function AdminStatsPage() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const [statsData, setStatsData] = useState<SiteStat[]>([])
-  const [referrerData, setReferrerData] = useState<ReferrerChartData[]>([])
+  const [referrerData, setReferrerData] = useState<ChartData[]>([])
+  const [topPostsData, setTopPostsData] = useState<ChartData[]>([])
+  const [keywordsData, setKeywordsData] = useState<KeywordData[]>([])
   const [summary, setSummary] = useState({
     totalPv: 0,
     totalUv: 0,
@@ -87,7 +96,6 @@ export default function AdminStatsPage() {
           .order("count", { ascending: false })
         
         if (refs) {
-          // Group by source
           const grouped = (refs as SiteReferrer[]).reduce<Record<string, number>>((acc, curr) => {
             if (!acc[curr.source]) acc[curr.source] = 0
             acc[curr.source] += curr.count
@@ -100,6 +108,34 @@ export default function AdminStatsPage() {
           }))
           setReferrerData(formattedRefs)
         }
+
+        // 3. Fetch post_stats
+        const { data: posts } = await supabase
+          .from("post_stats")
+          .select("slug, title, views")
+        
+        if (posts) {
+          const aggregated = (posts as PostStat[]).reduce<Record<string, { title: string; views: number }>>((acc, curr) => {
+            if (!acc[curr.slug]) acc[curr.slug] = { title: curr.title, views: 0 }
+            acc[curr.slug].views += curr.views
+            return acc
+          }, {})
+
+          const formattedPosts = Object.entries(aggregated)
+            .map(([slug, data]) => ({
+              name: data.title || slug,
+              value: data.views
+            }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 8) 
+
+          setTopPostsData(formattedPosts)
+        }
+
+        // 4. Fetch Search Console Keywords
+        const keywords = await fetchSearchKeywords()
+        setKeywordsData(keywords)
+
       } catch (error) {
         console.error("Error fetching admin stats:", error)
       } finally {
@@ -120,163 +156,317 @@ export default function AdminStatsPage() {
 
   if (!isAdmin) return null
 
-  const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"]
+  const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#6366f1"]
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
-      <header className="mb-12 flex items-center justify-between">
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <header className="mb-12 flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
         <div>
-          <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary mb-2">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Blog
+          <Link href="/" className="inline-flex items-center text-sm font-bold text-muted-foreground hover:text-primary transition-colors mb-4 group">
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            블로그로 돌아가기
           </Link>
-          <h1 className="text-4xl font-black tracking-tighter uppercase flex items-center gap-3">
-            Admin Stats Dashboard
-            <ShieldCheck className="h-8 w-8 text-primary" />
-          </h1>
-          <div className="text-sm text-muted-foreground">개인 투자 저널 블로그의 정밀 유입 분석 데이터</div>
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-primary/10 rounded-2xl">
+              <ShieldCheck className="h-8 w-8 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-black tracking-tighter uppercase leading-none mb-1">
+                Dashboard
+              </h1>
+              <div className="text-sm font-medium text-muted-foreground tracking-wide uppercase opacity-70">Custom Blog Analytics System</div>
+            </div>
+          </div>
         </div>
-        <button 
-          onClick={() => {
-            localStorage.removeItem("is_blog_admin")
-            router.push("/")
-          }}
-          className="text-xs font-black uppercase tracking-widest text-destructive hover:underline"
-        >
-          Logout Admin Mode
-        </button>
+        
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:block text-right">
+            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Status</div>
+            <div className="flex items-center gap-2 text-xs font-bold text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Live Connected
+            </div>
+          </div>
+          <button 
+            onClick={() => {
+              localStorage.removeItem("is_blog_admin")
+              router.push("/")
+            }}
+            className="px-6 py-2.5 bg-destructive/10 text-destructive text-xs font-black uppercase tracking-widest rounded-xl hover:bg-destructive hover:text-white transition-all duration-300 border border-destructive/20"
+          >
+            Logout
+          </button>
+        </div>
       </header>
 
-      <div className="grid gap-6 md:grid-cols-3 mb-12">
-        <Card className="border-2 border-primary/10 bg-primary/5">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+        <Card className="border-0 bg-slate-50 dark:bg-white/5 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+            <Users className="h-16 w-16" />
+          </div>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <Users className="h-4 w-4" /> Total Visitors (UV)
-            </CardTitle>
+            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">누적 방문자 수 (UV)</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black">{summary.totalUv.toLocaleString()}</div>
+            <div className="text-4xl font-black tracking-tighter">{summary.totalUv.toLocaleString()}</div>
+            <div className="text-[10px] text-muted-foreground mt-1 font-bold uppercase tracking-widest">Total Unique Visitors</div>
           </CardContent>
         </Card>
-        <Card className="border-2 border-primary/10 bg-primary/5">
+        
+        <Card className="border-0 bg-slate-50 dark:bg-white/5 relative overflow-hidden group text-primary">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+            <MousePointer2 className="h-16 w-16" />
+          </div>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <MousePointer2 className="h-4 w-4" /> Total Page Views (PV)
-            </CardTitle>
+            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">누적 페이지 뷰 (PV)</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black">{summary.totalPv.toLocaleString()}</div>
+            <div className="text-4xl font-black tracking-tighter">{summary.totalPv.toLocaleString()}</div>
+            <div className="text-[10px] opacity-70 mt-1 font-bold uppercase tracking-widest">Total Page Views</div>
           </CardContent>
         </Card>
-        <Card className="border-2 border-primary/10 bg-primary/5">
+
+        <Card className="border-0 bg-slate-50 dark:bg-white/5 relative overflow-hidden group sm:col-span-2 lg:col-span-1">
+          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+            <Share2 className="h-16 w-16" />
+          </div>
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <Share2 className="h-4 w-4" /> Avg. Daily Views
-            </CardTitle>
+            <CardTitle className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">일평균 조회수</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-black">{summary.avgPv.toLocaleString()}</div>
+            <div className="text-4xl font-black tracking-tighter">{summary.avgPv.toLocaleString()}</div>
+            <div className="text-[10px] text-muted-foreground mt-1 font-bold uppercase tracking-widest">Daily Average Views</div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-8 mb-8 lg:grid-cols-3">
         {/* Visitors Trend Chart */}
-        <Card className="rounded-3xl overflow-hidden border-2 border-primary/5">
-          <CardHeader>
-            <CardTitle className="text-sm font-black uppercase tracking-[0.2em]">Visitors Trend (PV vs UV)</CardTitle>
+        <Card className="lg:col-span-2 rounded-[2rem] border-0 bg-white dark:bg-slate-900 shadow-xl shadow-primary/5">
+          <CardHeader className="flex flex-row items-center justify-between pb-8">
+            <div>
+              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground mb-1">Visitors Trend</CardTitle>
+              <h3 className="text-2xl font-black tracking-tight">트래픽 추이 (30일)</h3>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-1.5 text-[10px] font-black uppercase">
+                <span className="h-2 w-2 rounded-full bg-primary" /> PV
+              </div>
+              <div className="flex items-center gap-1.5 text-[10px] font-black uppercase">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" /> UV
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="h-[400px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={statsData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.1} />
+              <LineChart data={statsData} margin={{ top: 5, right: 20, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.05} />
                 <XAxis 
                   dataKey="date" 
                   fontSize={10} 
+                  fontWeight={700}
+                  axisLine={false}
+                  tickLine={false}
                   tickFormatter={(val) => val.split("-").slice(1).join("/")}
+                  dy={10}
                 />
-                <YAxis fontSize={10} axisLine={false} tickLine={false} />
+                <YAxis fontSize={10} fontWeight={700} axisLine={false} tickLine={false} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: "#000", border: "none", borderRadius: "12px", color: "#fff" }}
-                  itemStyle={{ color: "#fff" }}
+                  contentStyle={{ backgroundColor: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)", border: "none", borderRadius: "16px", color: "#fff", padding: "12px" }}
+                  itemStyle={{ color: "#fff", fontSize: "12px", fontWeight: "900", textTransform: "uppercase" }}
+                  labelStyle={{ marginBottom: "4px", fontSize: "10px", opacity: 0.5 }}
                 />
-                <Legend iconType="circle" />
                 <Line
                   type="monotone"
                   dataKey="pv"
                   name="Page Views"
                   stroke="#3b82f6"
-                  strokeWidth={3}
-                  dot={{ r: 4, fill: "#3b82f6" }}
-                  activeDot={{ r: 6 }}
+                  strokeWidth={4}
+                  dot={false}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
                 />
                 <Line
                   type="monotone"
                   dataKey="uv"
                   name="Visitors"
                   stroke="#10b981"
-                  strokeWidth={3}
-                  dot={{ r: 4, fill: "#10b981" }}
-                  activeDot={{ r: 6 }}
+                  strokeWidth={4}
+                  dot={false}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Traffic Source Chart */}
-        <Card className="rounded-3xl overflow-hidden border-2 border-primary/5">
-          <CardHeader>
-            <CardTitle className="text-sm font-black uppercase tracking-[0.2em]">Top Referrer Sources</CardTitle>
+        {/* Top Posts Chart */}
+        <Card className="rounded-[2rem] border-0 bg-white dark:bg-slate-900 shadow-xl shadow-primary/5">
+          <CardHeader className="pb-8">
+            <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground mb-1">Top Performance</CardTitle>
+            <h3 className="text-2xl font-black tracking-tight">가장 많이 읽은 글</h3>
           </CardHeader>
           <CardContent className="h-[400px]">
-            {referrerData.length > 0 ? (
+            {topPostsData.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={referrerData} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" horizontal={false} strokeOpacity={0.1} />
-                  <XAxis type="number" fontSize={10} hide />
-                  <YAxis dataKey="name" type="category" fontSize={10} width={80} />
-                  <Tooltip 
-                    cursor={{ fill: "transparent" }}
-                    contentStyle={{ backgroundColor: "#000", border: "none", borderRadius: "12px", color: "#fff" }}
+                <BarChart data={topPostsData} layout="vertical" margin={{ left: -30, right: 20 }}>
+                  <XAxis type="number" hide />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    fontSize={10} 
+                    fontWeight={700}
+                    width={100} 
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(val) => val.length > 15 ? val.substring(0, 15) + '...' : val}
                   />
-                  <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20}>
-                    {referrerData.map((entry, index) => (
+                  <Tooltip 
+                    cursor={{ fill: "rgba(0,0,0,0.03)" }}
+                    contentStyle={{ backgroundColor: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)", border: "none", borderRadius: "16px", color: "#fff" }}
+                  />
+                  <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={24}>
+                    {topPostsData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground text-sm font-medium italic">
-                No external referrers recorded yet.
+              <div className="flex h-full flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-white/5 rounded-3xl">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground mb-4" />
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">데이터 수집 중...</p>
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      <section className="mt-16 bg-secondary/50 rounded-3xl p-8 border-2 border-dashed border-primary/10">
-        <h2 className="text-lg font-black uppercase tracking-widest mb-4 flex items-center gap-2">
-          <ShieldCheck className="h-5 w-5" /> Admin Instructions
-        </h2>
-        <ul className="space-y-4 text-sm text-muted-foreground font-medium">
-          <li className="flex gap-3">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/20 text-[10px] font-black text-primary">1</span>
-            현재 브라우저는 <strong>관리자 모드</strong>가 활성화되어 있습니다. 본인이 블로그를 돌아다녀도 로그 수집에서 제외됩니다.
-          </li>
-          <li className="flex gap-3">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/20 text-[10px] font-black text-primary">2</span>
-            유입 키워드를 확인하려면 <strong>Google Search Console</strong> 및 <strong>Naver Search Advisor</strong> 연동이 필요합니다. 연동 준비가 되시면 말씀해 주세요.
-          </li>
-          <li className="flex gap-3 items-start">
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/20 text-[10px] font-black text-primary mt-0.5">3</span>
-            <div className="break-all leading-relaxed">
-              보안상 이 페이지(/admin/stats)는 이 브라우저에서만 접속 가능합니다. 만약 다른 기기에서 접속하려면 URL 뒤에 <code className="bg-primary/10 px-1.5 py-0.5 rounded text-primary font-bold">?admin_secret=ska48*!qmf</code>를 붙여 한 번 방문해야 합니다.
+      <div className="grid gap-8 mb-8 lg:grid-cols-2">
+        {/* Keywords Table */}
+        <Card className="rounded-[2rem] border-0 bg-white dark:bg-slate-900 shadow-xl shadow-primary/5 overflow-hidden">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground mb-1">Search Keywords</CardTitle>
+            <h3 className="text-2xl font-black tracking-tight">구글 검색 유입 키워드</h3>
+          </CardHeader>
+          <CardContent>
+            {keywordsData.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-primary/5">
+                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Keyword Query</th>
+                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Clicks</th>
+                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Imps</th>
+                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">CTR</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-primary/5">
+                    {keywordsData.map((kw, i) => (
+                      <tr key={i} className="hover:bg-primary/5 transition-colors group">
+                        <td className="py-4 px-2">
+                          <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                            {kw.keys?.[0] || "-"}
+                          </div>
+                        </td>
+                        <td className="py-4 px-2 text-center text-sm font-black">{kw.clicks?.toLocaleString()}</td>
+                        <td className="py-4 px-2 text-center text-sm font-medium text-muted-foreground">{kw.impressions?.toLocaleString()}</td>
+                        <td className="py-4 px-2 text-center text-sm font-bold text-emerald-500">
+                          {((kw.ctr || 0) * 100).toFixed(1)}%
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12 px-6 bg-slate-50 dark:bg-white/5 rounded-3xl border-2 border-dashed border-primary/10">
+                <ShieldCheck className="h-10 w-10 text-muted-foreground/30 mb-4" />
+                <p className="text-sm font-bold text-muted-foreground text-center mb-2">Google Search Console API 미연동</p>
+                <p className="text-xs text-muted-foreground/60 text-center max-w-[250px] leading-relaxed">
+                  키워드 데이터를 표시하려면 서비스 계정 설정과 API 키 등록이 필요합니다.
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Traffic Source Chart */}
+        <Card className="rounded-[2rem] border-0 bg-white dark:bg-slate-900 shadow-xl shadow-primary/5">
+          <CardHeader className="pb-8">
+            <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground mb-1">Traffic Channels</CardTitle>
+            <h3 className="text-2xl font-black tracking-tight">유입 경로 분석</h3>
+          </CardHeader>
+          <CardContent className="h-[300px]">
+            {referrerData.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={referrerData}>
+                  <XAxis 
+                    dataKey="name" 
+                    fontSize={10} 
+                    fontWeight={900} 
+                    axisLine={false} 
+                    tickLine={false} 
+                    textAnchor="middle"
+                  />
+                  <Bar dataKey="value" radius={[8, 8, 0, 0]} barSize={40}>
+                    {referrerData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Bar>
+                  <Tooltip cursor={{ fill: "transparent" }} contentStyle={{ borderRadius: "12px", border: "none", fontWeight: 900 }} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-muted-foreground text-sm font-bold uppercase tracking-widest italic opacity-50">
+                유입 경로 없음
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="mt-8">
+        {/* Admin Instructions Section */}
+        <section className="bg-primary/5 rounded-[2rem] p-10 border-2 border-dashed border-primary/10 relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mr-8 -mt-8 h-40 w-40 bg-primary/5 rounded-full blur-3xl" />
+          
+          <h2 className="text-2xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
+            <ShieldCheck className="h-7 w-7 text-primary" /> 
+            Admin Protocol
+          </h2>
+          
+          <div className="grid sm:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <div className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" /> Information
+              </div>
+              <p className="text-sm font-medium leading-relaxed text-muted-foreground">
+                현재 브라우저는 <strong>관리자 모드</strong>로 인증되었습니다. 
+                본인의 활동은 통계 데이터(PV/UV)에서 자동으로 제외되어 순수 방문자 데이터만 수집됩니다.
+              </p>
             </div>
-          </li>
-        </ul>
-      </section>
+            
+            <div className="space-y-2">
+              <div className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" /> Security Key
+              </div>
+              <div className="p-4 bg-white dark:bg-black/20 rounded-2xl border border-primary/10">
+                <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Auth Secret URL</div>
+                <code className="text-xs font-black text-primary break-all">
+                  ?admin_secret=ska48*!qmf
+                </code>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-primary/10">
+            <p className="text-xs font-bold text-muted-foreground/80 leading-relaxed italic">
+              "정밀 분석 데이터는 1분 단위로 갱신됩니다. 유입 통계가 예상과 다를 경우 
+              Google Search Console의 인덱싱 상태를 함께 점검해 보세요."
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }
