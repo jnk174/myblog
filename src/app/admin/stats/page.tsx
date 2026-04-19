@@ -334,9 +334,12 @@ export default function AdminStatsPage() {
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="flex h-full flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-white/5 rounded-3xl">
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground mb-4" />
-                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">데이터 수집 중...</p>
+              <div className="flex h-full flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-white/5 rounded-3xl border-2 border-dashed border-primary/10">
+                <MousePointer2 className="h-10 w-10 text-muted-foreground/30 mb-4" />
+                <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-2">조회된 포스트 없음</p>
+                <p className="text-xs text-muted-foreground/60 leading-relaxed max-w-[200px]">
+                  아직 방문자가 조회한 포스트 기록이 없습니다. (관리자 조회수는 집계에서 제외됩니다.)
+                </p>
               </div>
             )}
           </CardContent>
