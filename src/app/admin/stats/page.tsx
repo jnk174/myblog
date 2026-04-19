@@ -51,6 +51,7 @@ export default function AdminStatsPage() {
   const [referrerData, setReferrerData] = useState<ChartData[]>([])
   const [topPostsData, setTopPostsData] = useState<ChartData[]>([])
   const [keywordsData, setKeywordsData] = useState<KeywordData[]>([])
+  const [isGscLinked, setIsGscLinked] = useState(false)
   const [summary, setSummary] = useState({
     totalPv: 0,
     totalUv: 0,
@@ -133,8 +134,9 @@ export default function AdminStatsPage() {
         }
 
         // 4. Fetch Search Console Keywords
-        const keywords = await fetchSearchKeywords()
-        setKeywordsData(keywords)
+        const keywordsResponse = await fetchSearchKeywords()
+        setKeywordsData(keywordsResponse.data)
+        setIsGscLinked(keywordsResponse.isLinked)
 
       } catch (error) {
         console.error("Error fetching admin stats:", error)
@@ -349,41 +351,51 @@ export default function AdminStatsPage() {
             <h3 className="text-2xl font-black tracking-tight">구글 검색 유입 키워드</h3>
           </CardHeader>
           <CardContent>
-            {keywordsData.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-primary/5">
-                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Keyword Query</th>
-                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Clicks</th>
-                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Imps</th>
-                      <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">CTR</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-primary/5">
-                    {keywordsData.map((kw, i) => (
-                      <tr key={i} className="hover:bg-primary/5 transition-colors group">
-                        <td className="py-4 px-2">
-                          <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
-                            {kw.keys?.[0] || "-"}
-                          </div>
-                        </td>
-                        <td className="py-4 px-2 text-center text-sm font-black">{kw.clicks?.toLocaleString()}</td>
-                        <td className="py-4 px-2 text-center text-sm font-medium text-muted-foreground">{kw.impressions?.toLocaleString()}</td>
-                        <td className="py-4 px-2 text-center text-sm font-bold text-emerald-500">
-                          {((kw.ctr || 0) * 100).toFixed(1)}%
-                        </td>
+            {isGscLinked ? (
+              keywordsData.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-primary/5">
+                        <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Keyword Query</th>
+                        <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Clicks</th>
+                        <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">Imps</th>
+                        <th className="py-4 px-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-center">CTR</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-primary/5">
+                      {keywordsData.map((kw, i) => (
+                        <tr key={i} className="hover:bg-primary/5 transition-colors group">
+                          <td className="py-4 px-2">
+                            <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                              {kw.keys?.[0] || "-"}
+                            </div>
+                          </td>
+                          <td className="py-4 px-2 text-center text-sm font-black">{kw.clicks?.toLocaleString()}</td>
+                          <td className="py-4 px-2 text-center text-sm font-medium text-muted-foreground">{kw.impressions?.toLocaleString()}</td>
+                          <td className="py-4 px-2 text-center text-sm font-bold text-emerald-500">
+                            {((kw.ctr || 0) * 100).toFixed(1)}%
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 px-6 bg-slate-50 dark:bg-white/5 rounded-3xl border-2 border-dashed border-emerald-500/20">
+                  <ShieldCheck className="h-10 w-10 text-emerald-500/50 mb-4" />
+                  <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 text-center mb-2">연동 완료! (조회 대기)</p>
+                  <p className="text-xs text-muted-foreground/60 text-center max-w-[250px] leading-relaxed">
+                    구글 서치 콘솔 연동이 성공적으로 완료되었습니다. 아직 집계된 검색 유입 키워드가 없습니다.
+                  </p>
+                </div>
+              )
             ) : (
               <div className="flex flex-col items-center justify-center py-12 px-6 bg-slate-50 dark:bg-white/5 rounded-3xl border-2 border-dashed border-primary/10">
                 <ShieldCheck className="h-10 w-10 text-muted-foreground/30 mb-4" />
                 <p className="text-sm font-bold text-muted-foreground text-center mb-2">Google Search Console API 미연동</p>
                 <p className="text-xs text-muted-foreground/60 text-center max-w-[250px] leading-relaxed">
-                  키워드 데이터를 표시하려면 서비스 계정 설정과 API 키 등록이 필요합니다.
+                  키워드 데이터를 표시하려면 서비스 계정 설정과 API 키 등록 및 권한 부여가 필요합니다.
                 </p>
               </div>
             )}

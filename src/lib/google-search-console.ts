@@ -49,6 +49,6 @@ export async function getSearchAnalyticsData(siteUrl: string, days = 30) {
     return response.data.rows || [];
   } catch (error) {
     console.error('Error fetching Search Console data:', error);
-    return [];
+    throw error;
   }
 }
