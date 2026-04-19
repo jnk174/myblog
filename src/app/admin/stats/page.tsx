@@ -435,29 +435,16 @@ export default function AdminStatsPage() {
             Admin Protocol
           </h2>
           
-          <div className="grid sm:grid-cols-2 gap-8">
-            <div className="space-y-2">
-              <div className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-primary" /> Information
-              </div>
-              <p className="text-sm font-medium leading-relaxed text-muted-foreground">
-                현재 브라우저는 <strong>관리자 모드</strong>로 인증되었습니다. 
-                본인의 활동은 통계 데이터(PV/UV)에서 자동으로 제외되어 순수 방문자 데이터만 수집됩니다.
-              </p>
+          <div className="space-y-2">
+            <div className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary" /> Information
             </div>
-            
-            <div className="space-y-2">
-              <div className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-primary" /> Security Key
-              </div>
-              <div className="p-4 bg-white dark:bg-black/20 rounded-2xl border border-primary/10">
-                <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Auth Secret URL</div>
-                <code className="text-xs font-black text-primary break-all">
-                  ?admin_secret=ska48*!qmf
-                </code>
-              </div>
-            </div>
+            <p className="text-sm font-medium leading-relaxed text-muted-foreground">
+              현재 브라우저는 <strong>관리자 모드</strong>로 인증되었습니다. 
+              본인의 활동은 통계 데이터(PV/UV)에서 자동으로 제외되어 순수 방문자 데이터만 수집됩니다.
+            </p>
           </div>
+
 
           <div className="mt-8 pt-8 border-t border-primary/10">
             <p className="text-xs font-bold text-muted-foreground/80 leading-relaxed italic">
